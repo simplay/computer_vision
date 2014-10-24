@@ -26,6 +26,5 @@ function [L] = fitChromeSphere(chromeDir, nDir, chatty)
   end
 
   % YOU NEED TO COMPLETE THIS FUNCTION
-  
-  return;
-
+  L = 1;
+end

@@ -13,7 +13,7 @@ chromeDir = [dataDir, 'chrome/'];
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Parameters
-dirMethod  = 0;  % 0 -- Use default light source directions.
+dirMethod  = 1;  % 0 -- Use default light source directions.
                  % 1 -- Use chrome images to estimate lightsource
                  % directions
                  
