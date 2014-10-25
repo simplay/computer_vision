@@ -28,28 +28,69 @@ function [L] = fitChromeSphere(chromeDir, nDir, chatty)
   % number of rows is height, num. of columns is width.
   [imgHeight, imgWidth, imgCount] = size(imData);
   
-  % sphere radius
-  r = maskSphereRadius(mask, imgHeight, imgWidth);
+  % sphere mean radius
+  r = sphereRadiusOf(mask);
   
 
   
-  L = 1;
+  L = zeros(3, imgCount);
+  cameraRay = [0, 0, 1];
+  
+  sphereCenter = sphereCenter(mask, ones(imgHeight, imgWidth));
+  for idx=1:imgCount
+      currentImg = imData(:,:,idx);
+      
+      % center of bright spot - specular reflection - in current imgage.
+      spotCenter = sphereCenter(currentImg, mask);
+      
+      % shift spot center to zero
+      deltaCenter = spotCenter-sphereCenter;
+      
+      % compute sphere normal
+      normal = computeSphereNormal(deltaCenter, r);
+      
+      % cosinus of incident angle: cosine-law: 
+      % cos(theta) = dotProduct(sphere_normal, camera_ray)
+      % note that sphere_normal, camera_ray have to be normalized.
+      cosTheta = dot(normal, cameraRay);
+      
+      
+  end
+  
 end
 
-function r = maskSphereRadius(mask, imgHeight, imgWidth)
+function normal = computeSphereNormal(center, radius)
+    % based on implicit equation of a sphere, i.e.
+    % r^2 = x^2 + y^2 + z^2
+    % center contains shifted x,y coordinates.
+    
+    shiftedRadius = sqrt(radius^2 - sum(center.^2));
+    normal = [center, -shiftedRadius];
+    normal = normal/radius;
+end
+
+function center = sphereCenter(img, mask)
+    center = 1;
+end
+
+function r = sphereRadiusOf(mask)
+% @param mask (mxn) boolean (i.e. 0-1-valued) matrix
     % find (min,max)x(height,width) indices which are equal to one on mask
     % i.e. the boundary indices. compute their diameters and then, from
     % those the corresponding radius.
     
+    % get resolution of mask matrix
+    [height, width] = size(mask);
+    
     % make sure min will be updated 
-    minHeightIdx = imgHeight+ 1;
-    minWidthIdx = imgWidth + 1;
+    minHeightIdx = height+ 1;
+    minWidthIdx = width + 1;
     maxHeightIdx = -1;
     maxWidthIdx = -1;
     
-    % find '1' boundaries
-    for m=1:imgHeight,
-        for n=1:imgWidth,
+    % find '1' boundaries in mask
+    for m=1:height,
+        for n=1:width,
             if mask(m,n) == 1
                 minHeightIdx = relax(m, minHeightIdx, @isSmaller);
                 minWidthIdx = relax(n, minWidthIdx, @isSmaller);
@@ -58,6 +99,7 @@ function r = maskSphereRadius(mask, imgHeight, imgWidth)
             end
         end
     end
+    
     % we have two diamenters: from minWidth to maxWidth
     % and from minHeight to maxHeight. 
     % We compute for these two diameters their radius - r = d/2 - 
