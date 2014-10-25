@@ -51,7 +51,7 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
   % PART 1:  Estimate Light Source Directions using chrome 
   %          sphere images.
   [Lchrome] = getLightDir(dirMethod, chromeDir, nDir, chattyChrome);
-
+Lchrome'
   % Sanity check
   nrm = sqrt(sum(Lchrome.^2,1));
   if any(abs(nrm - 1) > 1.0e-6)

@@ -31,17 +31,17 @@ function [L] = fitChromeSphere(chromeDir, nDir, chatty)
   % sphere mean radius
   r = sphereRadiusOf(mask);
   
-
-  
+  % initialize light matrix and cameray ray.
   L = zeros(3, imgCount);
   cameraRay = [0, 0, 1];
   
-  sphereCenter = sphereCenter(mask, ones(imgHeight, imgWidth));
+  % compute lights and sphere center of mask
+  sphereCenter = sphereCenterOf(mask, ones(imgHeight, imgWidth), 0);
   for idx=1:imgCount
       currentImg = imData(:,:,idx);
       
       % center of bright spot - specular reflection - in current imgage.
-      spotCenter = sphereCenter(currentImg, mask);
+      spotCenter = sphereCenterOf(currentImg, mask);
       
       % shift spot center to zero
       deltaCenter = spotCenter-sphereCenter;
@@ -54,9 +54,12 @@ function [L] = fitChromeSphere(chromeDir, nDir, chatty)
       % note that sphere_normal, camera_ray have to be normalized.
       cosTheta = dot(normal, cameraRay);
       
-      
+      % According to Snell's reflection law:
+      % given a position a camera ray hits the surface
+      % in our case: the sphare surface, use the normal at this point.
+      % refDir = camRay - 2*dot(camRay, normal)*normal
+      L(:,idx) = cameraRay - 2*cosTheta*normal;
   end
-  
 end
 
 function normal = computeSphereNormal(center, radius)
@@ -69,8 +72,45 @@ function normal = computeSphereNormal(center, radius)
     normal = normal/radius;
 end
 
-function center = sphereCenter(img, mask)
-    center = 1;
+
+function center = sphereCenterOf(img, mask, threshold)
+  % find center of specular reflection in a given image. No color-images.
+  % assumption: there is only one specular reflection in an image.
+  % @param img a mxn image containing a bright spot.
+  % @param mask matrix for masking the given input image
+  % @param threshold a positive integer, defining lower bound 
+  %        for image pixel values defining a specular contribution.
+  %        In other words: every pixel-value which has a value greater than
+  %        this threshold can be considered as a specular contributing
+  %        pixel. If this value is not passed, use a default threshold,
+  %        relatively high - specular. Threshold equals zero are supposed
+  %        to correspond to finding the center of a spherical mask.
+  % @return coordinates in image (in pixel-coordinates) of specular center.
+  if nargin < 3
+    threshold = 250;  
+  end
+  
+  [height, width] = size(img);
+  
+  % specular reflection - brightness spot
+  % are assumed to be values bigger than our brigthness threshold
+  acceptedValuesMask = (img-threshold) > 0.0;
+  maskedImg = double(img).*double(double(mask).*acceptedValuesMask);
+  
+  % normalization factor: divide final result by all elements 
+  % which were selected by using our mask(s). 
+  nF = sum(maskedImg(:));
+  
+  % image indices tensors (colum,row)-indices.
+  yIdx = repmat(1:height, width, 1)';
+  xIdx = repmat(1:width, height, 1);
+  
+  % select all required indices determined by our masks.
+  maskedXidx = maskedImg.*xIdx;
+  maskedYidx = maskedImg.*yIdx;
+  
+  % sample center
+  center = [sum(maskedXidx(:)), sum(maskedYidx(:))] / nF;
 end
 
 function r = sphereRadiusOf(mask)
