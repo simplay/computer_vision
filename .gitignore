@@ -3,6 +3,6 @@
 *.aux
 *.dvi
 *.log
-*.ps
 *.gz
+*.ps
 .idea
