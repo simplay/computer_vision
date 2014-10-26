@@ -11,17 +11,17 @@ function [n, albedo] = fitReflectance(img, L)
     
   % for every pixel p in image img it holds true:
   % img(x) = albedo(x)*(normal_at(x)*L)
-  
-   %% [imgHeight, imgWidth , imgCount] = size(img);
-   S = L';
-   I = img';
-   n_bar = (S'*S) \ (S'*I);
-   n_bar = n_bar';
    
-   albedo = sqrt(sum(n_bar.^2, 2));
-  
-   n = n_bar ./ repmat((albedo), 1, 3);
-
+   % use same convention as introduced during the lecture.
+   S = L'; I = img';
+   
+   % system using the pseudo inverse.
+   n_tilde = (S'*S) \ (S'*I);
+   n_tilde = n_tilde';
+   
+   % albedo is norm of 
+   albedo = sqrt(sum(n_tilde.^2, 2));
+   
+   % normalize by dividing by albedo 
+   n = n_tilde ./ repmat(albedo, 1, 3);
 end
-
-

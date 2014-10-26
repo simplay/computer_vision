@@ -201,18 +201,49 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
   % Uncomment/comment the following continue statement.  This
   % allows you to run your partially completed code on
   % each of the examples.
-  continue;
+  %continue;
   
 
   % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % PART 3: Given normals and light source directions, 
   %         calculate the albedo in each color channel
-
+    
   % Allocate storage for RGB albedo
   albedo = zeros(numPixels, 3);
 
   % YOU NEED TO ADD CODE HERE FOR PART 3
- 
+  
+  % read all color images
+  imgDataRGB = zeros(3*numPixels, nDir);
+  for k=1:nDir
+    fname = [imageDir,name,'.',num2str(k-1),'.png'];
+    RGBim = double(imread(fname));
+    imgDataRGB(:,k) = RGBim(:);
+  end
+  
+  % all the cosines of the angles between indicent light and surface normals
+  cos_theta_i = nCrop * L;
+  
+  % make tensors of mask and cos angles
+  % saves us from introducing a for loop and instead allows us to formulate
+  % it as a tensor product.
+  rgbMask = repmat(mask, 3, 1);
+  rgbCosAngles = repmat(cos_theta_i, 3, 1);
+  
+  % mask the rgb image
+  imDataCropRGB = imgDataRGB(rgbMask,:);
+  
+  % For color images the following holds true: 
+  % I:= sqrt(Img_r^2 + Img_g^2 + Img_b^2) = a*dot(L,n)
+  % Thus, a = I/dot(L,n) where a denotes the albedo, L the light directions
+  % and n the normals.
+  % since for any x,y with y != 0: x/y = x*y / y^2
+  % it follows that a = I/dot(L,n) = I*dot(L,n) / (I/dot(L,n))^2
+  normalizationFactor = sqrt(sum(rgbCosAngles.^2, 2));
+  albedo(rgbMask) = sqrt(sum(imDataCropRGB .* rgbCosAngles, 2)) ./ normalizationFactor;
+  
+  % adjustment of albedo brightness
+  albedo = albedo .* (255 / max(albedo(:)));
   
   % Clip albedo to range [0, 255] 
   albedo = max(albedo,0);
@@ -255,7 +286,7 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
   % Uncomment/comment the following continue statement.  This
   % allows you to run your partially completed code on
   % each of the examples.
-  % continue;
+  continue;
 
 
   %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
