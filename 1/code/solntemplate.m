@@ -286,7 +286,7 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
   % Uncomment/comment the following continue statement.  This
   % allows you to run your partially completed code on
   % each of the examples.
-  continue;
+  %continue;
 
 
   %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -315,8 +315,23 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
     fprintf(2, 'Press any key to continue ... ');
     pause; 
   end
-
+    
+  
+    depthmap_img = depth;
+    depthmap_img(mask == 0) = 0;
+    depthmap_img(mask == 1) = depth(mask == 1) + abs(min(min(depth(mask == 1))));
+    depthmap_img(mask == 1) = depthmap_img(mask == 1)/max(max(depthmap_img(mask == 1)));
+    
+    % the darker the further way
+    depthmap_img(mask == 1) = 1 - depthmap_img(mask == 1); 
+    figure(111); clf; 
+    imshow(depthmap_img);
+    title('Depth Map Representation');
+    if chatty
+        fprintf(2, 'Press any key to continue ... ');
+        pause; 
+    end
   % END OF PART 4.
-
+    
   %%%%%%%%%%%%%%%%%%%%%%%%%%
 end % loop over different objects at beginning of script
