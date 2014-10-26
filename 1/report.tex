@@ -116,8 +116,43 @@ normalized. The normalized normal $\hat{\textbf{n}}$ of the normal from equation
 
 Therefore, equation $\ref{eq:impl_sphere_norm_normal}$ tells us how we can compute normalized normals at any point lying on the surface of a implicit surface. \\
 
+Next, we describe how we can make use of equation $\ref{eq:impl_sphere_norm_normal}$ when using our twelve images of the chrome sphere. Since the given images are in 2d, i.e. only exhibit two dimensions, the x-and y-coordinate, we cannot make directly use of the z component in order to define the surface of a sphere using its implicit representation from equation $\ref{eq:param_sphere}$. \\
 
+Thus, we express the $z$ component as a parametrization of $(x,y,r)$:
 
+\begin{align}
+z 
+&= z(x,y,r) \nonumber \\
+&= \sqrt{r^2 - (x-c_x)^2 - (y-c_y)^2}
+\label{eq:z_comp}
+\end{align}
+
+In order to derive this identiy we only solved for $z$ using equation $\ref{eq:impl_sphere_norm_normal}$. By plugging equation $\ref{eq:z_comp}$ into equation \ref{eq:impl_sphere_norm_normal} we get the final representation for computign the normals:
+
+\begin{equation}
+    \hat{\textbf{n}} = 
+    \frac{1}{r}\left(
+        \begin{array}{c}
+            (x-c_{x}) \\
+            (y-c_{y}) \\
+            -\sqrt{r^2 - (x-c_x)^2 - (y-c_y)^2}
+        \end{array}
+    \right)
+\label{eq:final_normal}
+\end{equation}
+
+Where $(x,y)$ are coordinates on the chrome sphere exhibiting a (specular) highlight caused by light sources. For any such $(x,y)$ we compute its normal using equation $\ref{eq:final_normal}$. Please note that we are using the negative of z as the third component in the normal vector in $\ref{eq:final_normal}$ since the z-axis points towards the camera eye (our convention).  \\
+
+Last, using all these computed normals, we can estimate the light directions using Snell's reflection law:
+
+\begin{equation}
+    L_k = \textbf{d}-2(\textbf{d}\cdot \hat{\textbf{n}}_k)\hat{\textbf{n}}_k
+\label{eq:snell_reflection}
+\end{equation}
+
+Where $L_k$ denotes the k-th light source resulting from the k-th normal vector $\hat{\textbf{n}}_k$.  \textbf{d} = $(0,0,1)$ denotes the vector pointing to the camera.\\
+
+All retrieved light directions $L_k$ can be assembled into a matrix $\mathbf{L}$. 
 
 \begin{align}
 \mathbf{L}^T= \left[ \begin{array}{ccc}
@@ -137,6 +172,7 @@ Therefore, equation $\ref{eq:impl_sphere_norm_normal}$ tells us how we can compu
 \end{align}
 \end{itemize}
 
+$\mathbf{L}^T$ denotes the transposed of the matrix $\mathbf{L}$.
 
 
 \paragraph{2. Computing Surface Normals and Grey Albedo (30 points)}
