@@ -1,0 +1,180 @@
+\documentclass{paper}
+
+%\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+
+
+% load package with ``framed'' and ``numbered'' option.
+%\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+
+% something NOT relevant to the usage of the package.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{18pt}
+
+
+
+
+
+
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc} 
+
+\usepackage{listings} 
+\lstset{% 
+   language=Matlab, 
+   basicstyle=\small\ttfamily, 
+} 
+
+
+
+\title{Report Computer Vision Project 1}
+
+
+
+\author{Single Michael\\08-917-445}
+% //////////////////////////////////////////////////
+
+
+\begin{document}
+
+
+
+\maketitle
+
+
+% Add figures:
+%\begin{figure}[t]
+%%\begin{center}
+%\quad\quad   \includegraphics[width=1\linewidth]{ass2}
+%%\end{center}
+%
+%\label{fig:performance}
+%\end{figure}
+
+\section{Photometric Stereo (Due on 28/10/2014)}
+
+
+
+\paragraph{1. Calibration (35 points)}
+In this section you should:
+
+\begin{itemize}
+\item Describe the algorithm you used for calculating the light directions given the images of the chrome sphere for different lighting conditions. You need to provide the formula you used to calculate such directions given: 1) The radius of the sphere; 2) The 2D coordinates of the light source highlights on the sphere; 3) The 2D coordinates of the centre of the sphere; 4) The unit vector $(0,0,-1)$ that points towards the camera.
+\item The calculated light vector in the format:
+
+In this section we discuss and derive all essential formulas in order to compute light direction vectors using the technique of photometric stereo. \\
+
+We start by describing how normals on a spherical surface can be computed. Next, we discuss how we can compute the surface normals of the images of a chrome sphere. Last, by using Snell's reflection law, we tell the reader how the light directions can be estimated. \\
+
+Every point $(x,y,z)$ on the surface of a sphere in $\mathbb{R}^3$ with a radius $r$ centered at $\textbf{c} = (c_x, c_y, c_y)$ fulfills the following implicit function:
+\begin{equation}
+    r^2 = (x-c_{x})^2 + (y-c_{y})^2 + (z-c_{z})^2
+\label{eq:param_sphere}
+\end{equation}
+
+Equation $\ref{eq:param_sphere}$ has the following vectorized representation:
+
+\begin{equation}
+    f(\textbf{p}) = (\textbf{p}-\textbf{c}) \cdot (\textbf{p}-\textbf{c}) -r^2 = 0
+\label{eq:param_sphere_vec}
+\end{equation}
+
+Where $\textbf{p}$ denotes a point $(x,y,z)$ on the sphere's surface. Please note that $f$ denotes the implicit function (for our case the implicit function of a sphere). An implicit function describes a set of surface points whenever we set this function equal to zero, i.e. $f(p) = 0$. \\
+
+Next we describe how we can compute the normal on a sphere using our implicit representation defined in equation $\ref{eq:param_sphere_vec}$. From Mathematics we know that the normal on a surface point $\textbf{p}$ is simply the gradient of the implicit function describing the surface. Thus, the equation for computing a normal from $f$ looks like:
+\begin{equation}
+     	\textbf{n}(\textbf{p}) = \nabla f(\textbf{p})
+\label{eq:normal_impfunc}
+\end{equation}
+
+For simplification purposes we omit the argument $\textbf{p}$ in $\textbf{n}(\textbf{p})$ in the following and just write $\textbf{n}$ instead. \\
+
+Applying the identity from equation $\ref{eq:normal_impfunc}$ to equation $\ref{eq:param_sphere_vec}$ we can compute the normal on the surface of a sphere.
+
+\begin{align}
+\textbf{n}
+&= \textbf{n}(\textbf{p}) \nonumber \\
+&= \nabla f(\textbf{p})  \nonumber \\
+&= \nabla \left((\textbf{p}-\textbf{c}) \cdot (\textbf{p}-\textbf{c}) -r^2\right) \nonumber \\
+&= 2(\textbf{p}-\textbf{c})
+\label{eq:impl_sphere_normal}
+\end{align}
+
+Please note that the normal $\textbf{n}$ from equation $\ref{eq:impl_sphere_normal}$ is not 
+normalized. The normalized normal $\hat{\textbf{n}}$ of the normal from equation $\ref{eq:impl_sphere_normal}$:
+
+\begin{align}
+\hat{\textbf{n}}
+&= \frac{\textbf{n}}{||\textbf{n}||} \nonumber \\
+&= \frac{(\textbf{p}-\textbf{c})}{r}
+\label{eq:impl_sphere_norm_normal}
+\end{align}
+
+Therefore, equation $\ref{eq:impl_sphere_norm_normal}$ tells us how we can compute normalized normals at any point lying on the surface of a implicit surface. \\
+
+
+
+
+\begin{align}
+\mathbf{L}^T= \left[ \begin{array}{ccc}
+    0.4979 &  -0.4672 &  -0.7306 \\
+    0.2441 &  -0.1376 &  -0.9599 \\
+   -0.0386 &  -0.1768 &  -0.9835 \\
+   -0.0953 &  -0.4443 &  -0.8908 \\
+   -0.3214 &  -0.5095 &  -0.7982 \\
+   -0.1114 &  -0.5652 &  -0.8174 \\
+    0.2828 &  -0.4257 &  -0.8595 \\
+    0.1013 &  -0.4335 &  -0.8954 \\
+    0.2073 &  -0.3367 &  -0.9185 \\
+    0.0889 &  -0.3344 &  -0.9382 \\
+    0.1298 &  -0.0465 &  -0.9904 \\
+   -0.1446 &  -0.3644 &  -0.9199
+\end{array} \right] \nonumber
+\end{align}
+\end{itemize}
+
+
+
+\paragraph{2. Computing Surface Normals and Grey Albedo (30 points)}
+
+In this section you should:
+
+\begin{itemize}
+\item Describe the algorithm you used for calculating the albedo and normals given the light directions you estimated (or the approximated one which is provided in case you did not complete the task 1). You need to provide the formula you used to calculate the normals.
+
+\item Display the image of the recovered grayscale albedo map for each dataset.
+\item Display the images of the three normal components (x,y and z directions) or a single colour image with the x,y and z components instead of the R,G, and B components rispectively.
+\item Display the image of the RGB albedo map for each dataset. 
+\end{itemize}
+
+
+
+\paragraph{3. Surface Fitting (35 points)}
+
+In this section you should:
+
+\begin{itemize}
+\item Describe the algorithm you used for calculating the depth map given the normals you calculated before.
+\item Display the image of the depth map (in colour or grayscale) for each dataset, where higher intensity values indicate points closer to the camera.
+\item Describe, in no more than a few paragraphs, your assessment of when the technique works well, and when there are failures. When the technique fails to produce nice results, please explain as best as you can what the likely causes of the problems are.
+\end{itemize}
+
+
+
+
+
+
+sdfsdf
+
+
+
+
+
+
+
+
+ \end{document}
