@@ -179,7 +179,11 @@ All retrieved light directions $L_k$ can be assembled into a matrix $\mathbf{L}$
 \end{array} \right] \nonumber
 \end{align}
 
-$\mathbf{L}^T$ denotes the transposed of the matrix $\mathbf{L}$.
+$\mathbf{L}^T$ denotes the transposed of the matrix $\mathbf{L}$. \\
+
+I computed $(x,y)$ coordinates the sphere center from the given mask matrix. The same holds true for the radius. For the radius I estimated the diameter of the ones-sphere in the mask. basically, I searched for the minimum and maximumum row and column index in the matrix, that was equal to one. Then I computed the difference between the maximum and minimum of - both, clumn, and row indices extrema indices pair - divided them by two (since the diameter of a circle is twice the radius) and took the mean of both resulting radii. Similarly I retrived the center of the sphere. \\
+
+For every image, I computed the center of the specular highlight - i.e. the center of the spot. I shifted the center of the spot by the center of the chorme sphere and retrieved the normal - using this shifted center - applying equation $\label{eq:final_normal}$.
 
 
 \paragraph{2. Computing Surface Normals and Grey Albedo (30 points)}
