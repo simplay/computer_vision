@@ -33,7 +33,10 @@ function [L] = fitChromeSphere(chromeDir, nDir, chatty)
   
   % initialize light matrix and cameray ray.
   L = zeros(3, imgCount);
-  cameraRay = [0, 0, 1];
+  
+  % since we use orthographic projection
+  % the direction of the camera from any point is (0,0,-1.)
+  cameraRay = [0, 0, -1];
   
   % compute lights and sphere center of mask
   sphereCenter = sphereCenterOf(mask, ones(imgHeight, imgWidth), 0);
@@ -58,17 +61,21 @@ function [L] = fitChromeSphere(chromeDir, nDir, chatty)
       % given a position a camera ray hits the surface
       % in our case: the sphare surface, use the normal at this point.
       % refDir = camRay - 2*dot(camRay, normal)*normal
-      L(:,idx) = cameraRay - 2*cosTheta*normal;
+      L(:,idx) = 2*cosTheta*normal-cameraRay;
   end
 end
 
 function normal = computeSphereNormal(center, radius)
     % based on implicit equation of a sphere, i.e.
-    % r^2 = x^2 + y^2 + z^2
+    % r^2 = x^2 + y^2 + z^2 
+    % => z = sqrt(r^2 -(y^2 + z^2))
     % center contains shifted x,y coordinates.
+    z = sqrt(radius^2 - sum(center.^2));
     
-    shiftedRadius = sqrt(radius^2 - sum(center.^2));
-    normal = [center, -shiftedRadius];
+    % camera system convention
+    normal = [center, -z];
+    
+    % normalization
     normal = normal/radius;
 end
 
