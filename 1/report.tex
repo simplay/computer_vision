@@ -64,9 +64,17 @@ In this section you should:
 
 \begin{itemize}
 \item Describe the algorithm you used for calculating the light directions given the images of the chrome sphere for different lighting conditions. You need to provide the formula you used to calculate such directions given: 1) The radius of the sphere; 2) The 2D coordinates of the light source highlights on the sphere; 3) The 2D coordinates of the centre of the sphere; 4) The unit vector $(0,0,-1)$ that points towards the camera.
-\item The calculated light vector in the format:
+\item The calculated light vector in the following format: 
+\begin{align}
+\mathbf{L}= \left[ \begin{array}{cccccccccccccc}
+L_{1x} & L_{2x} & L_{3x} & L_{4x} & L_{5x} & L_{6x} & L_{7x} & L_{8x} & L_{9x} & L_{10x} & L_{11x} & L_{12z}\\
+L_{1y} & L_{2y} & L_{3y} & L_{4y} & L_{5y} & L_{6y} & L_{7y} & L_{8y} & L_{9y} & L_{10y} & L_{11y} & L_{12y}\\
+L_{1z} & L_{2z} & L_{3z} & L_{4z} & L_{5z} & L_{6z} & L_{7z} & L_{8z} & L_{9z} & L_{10z} & L_{11z} & L_{12z}
+\end{array} \right] \nonumber
+\end{align}
+\end{itemize}
 
-In this section we discuss and derive all essential formulas in order to compute light direction vectors using the technique of photometric stereo. \\
+In this section we discuss and derive all essential formulas in order to compute light direction vectors using the technique of photometric stereo. Afterward, we discuss in detail how some quantities, such as the sphere radius, are computed.  \\
 
 We start by describing how normals on a spherical surface can be computed. Next, we discuss how we can compute the surface normals of the images of a chrome sphere. Last, by using Snell's reflection law, we tell the reader how the light directions can be estimated. \\
 
@@ -150,7 +158,7 @@ Last, using all these computed normals, we can estimate the light directions usi
 \label{eq:snell_reflection}
 \end{equation}
 
-Where $L_k$ denotes the k-th light source resulting from the k-th normal vector $\hat{\textbf{n}}_k$.  \textbf{d} = $(0,0,1)$ denotes the vector pointing to the camera.\\
+Where $L_k$ denotes the k-th light source resulting from the k-th normal vector $\hat{\textbf{n}}_k$.  \textbf{d} = $(0,0,-1)$ denotes the direction of the camera from any point.\\
 
 All retrieved light directions $L_k$ can be assembled into a matrix $\mathbf{L}$. 
 
@@ -170,7 +178,6 @@ All retrieved light directions $L_k$ can be assembled into a matrix $\mathbf{L}$
    -0.1446 &  -0.3644 &  -0.9199
 \end{array} \right] \nonumber
 \end{align}
-\end{itemize}
 
 $\mathbf{L}^T$ denotes the transposed of the matrix $\mathbf{L}$.
 
@@ -198,16 +205,6 @@ In this section you should:
 \item Display the image of the depth map (in colour or grayscale) for each dataset, where higher intensity values indicate points closer to the camera.
 \item Describe, in no more than a few paragraphs, your assessment of when the technique works well, and when there are failures. When the technique fails to produce nice results, please explain as best as you can what the likely causes of the problems are.
 \end{itemize}
-
-
-
-
-
-
-sdfsdf
-
-
-
 
 
 
