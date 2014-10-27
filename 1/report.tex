@@ -469,10 +469,14 @@ Where $z(x,y)$ depicts the height field value at the point $(x,y)$. For any poin
 \begin{align}
     t_x &= \frac{\partial S}{\partial x}(x,y) = (1,0,z_x)^T \nonumber \\
     t_y &= \frac{\partial S}{\partial y}(x,y) = (0,1,z_y)^T
+\label{eq:tangent_plane_vectors}
 \end{align}
 
-Where $z_x$ denotes the partial derivate of $z$ along the $x$-axis and $z_y$ the partial derivative along the $y$-axis respectively.
+Where $z_x$ denotes the partial derivate of $z$ along the $x$-axis and $z_y$ the partial derivative along the $y$-axis respectively. The tangent plane spanned by those tangent vectors at a point $(x,y)$ from equation $\ref{eq:tangent_plane_vectors}$ have the following normal vector:
 
+\begin{equation}
+    \textbf{n}(x,y) = \frac{t_x(x,y) \times t_y(x,y)}{|| t_x(x,y) \times t_y(x,y)||}
+\end{equation}
 
 
 \paragraph{Failure cases}
