@@ -289,7 +289,9 @@ Note that equation $\ref{eq:albedo_system1}$ corresponds to
 \label{eq:albedo_system2}
 \end{align}
 
-In the next section I list all results.
+\paragraph{Results}
+
+In the following I show my results applied to each provided data. Figure $\ref{fig:rec_albedo}$ shows the recovered albedo when applying Mathlab's $\emph{imagesc}$ function to our grayscale albedo. Figure $\ref{fig:albedo_lum}$ visualizes the luminance - i.e. the grayscale albedo. In addition I have produced results of the recovered RGB albedo as shown in figure $\ref{fig:albedo_rgb}$. Last I offer the reader two different visualizations depicting the surface normals. Figure $\ref{fig:normals}$ shows the absolute values of the normal vectors, whereat figure $\ref{fig:normals_xyz}$ shows each normal direction separatly.
 
 \begin{figure}[h!]
     \centering
@@ -317,7 +319,7 @@ In the next section I list all results.
         \includegraphics[width=\textwidth]{results/rock/rock_rec_a}
     \end{subfigure}
     \caption{Visualization of the recovered grayscale albedo (luminance) for each dataset}
-    \label{fig:rec_albeldo}       
+    \label{fig:rec_albedo}       
 \end{figure}
 
 \begin{figure}[h!]
@@ -346,7 +348,7 @@ In the next section I list all results.
         \includegraphics[width=\textwidth]{results/rock/rock_a_lu}
     \end{subfigure}
     \caption{Visualization of the grayscale albedo (luminance) for each dataset}
-    \label{fig:albeldo_lum}       
+    \label{fig:albedo_lum}       
 \end{figure}
 
 
@@ -437,7 +439,7 @@ In the next section I list all results.
         \includegraphics[width=\textwidth]{results/rock/rock_a_rgb}
     \end{subfigure}
     \caption{Visualization of the RGB albedo map for each dataset.}
-    \label{fig:albeldo_rgb}       
+    \label{fig:albedo_rgb}       
 \end{figure}
 
 
