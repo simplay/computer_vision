@@ -505,7 +505,7 @@ we can use this equation $\ref{eq:gen_constraint_tangents}$ as constraint for ou
 \label{eq:gen_constraint_tangents}
 \end{align}
 
-For every point $(x,y)$ on the surface $S$. Applying $d$
+For every point $(x,y)$ on the surface $S$. Multiplying the equations in equation $\ref{eq:gen_constraint_tangents}$ out and Applying equation $\ref{eq:fin_diff_approx}$ to it, we get:
 
 \begin{align}
     \left(
@@ -541,6 +541,23 @@ For every point $(x,y)$ on the surface $S$. Applying $d$
 \label{eq:gen_constraint_tangents_ref1}
 \end{align}
 
+The resulting two constraints from equation $\ref{eq:gen_constraint_tangents_ref1}$ are equivalent to:
+
+\begin{align}
+    -\textbf{n}(x,y)_x &= \left(z(x+1,y)-z(x,y)\right)\textbf{n}(x,y)_z \nonumber \\
+    -\textbf{n}(x,y)_y &= \left(z(x,y+1)-z(x,y)\right)\textbf{n}(x,y)_z
+\label{eq:gen_constraint_tangents_ref2}
+\end{align}
+
+Thus, equation $\ref{eq:gen_constraint_tangents_ref2}$ gives us a linear system of equation which we can solve for the height value $z(x,y)$ on the surface $S$. \\
+
+Note that if $z(x,y)$ sovles the system from equation $\ref{eq:gen_constraint_tangents_ref2}$ then also $z(x,y) + c$ $\forall c \in \mathbb{R}$ sovles it. However, we can enforce the existence of a unique solution by introducing an additional constraint
+
+\begin{equation}
+    z(x_0, y_0) = 0 
+\end{equation}
+
+for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defined the top-left pixel to be the $(x_0, y_0)$, i.e. set the pixel on the top-left corner equal to $(0,0)$.
 
     
     
