@@ -457,7 +457,7 @@ In this section you should:
 \end{itemize}
 
 
-Goal: Express the depth of a surface S as a function of a surface normal.
+\textbf{Goal}: Express the depth of a surface S as a function of a surface normal. \\
 A surface $S$ in $\mathbb{R}^3$ can be defined by a perametrization 
 
 \begin{equation}
@@ -486,6 +486,26 @@ Using a finite difference scheme we can compute numerically the derivatives of t
     z_y(x,y) &= z(x,y+1) - z(x,y)
 \label{eq:fin_diff_approx}
 \end{align}
+
+Equation $\ref{eq:fin_diff_approx}$ allows us to solve for the tangent- and normal vectors defined as in equation $\ref{eq:tangent_plane_vectors}$ and equation $\ref{eq:tan_plane_normal}$ respectively. \\
+
+Since every normal vector $\textbf{n}$ is perpendicular to its tangent vectors $t_x$ and $t_y$, i.e.
+
+\begin{align}
+    \textbf{n} \cdot t_x &= 0 \nonumber \\
+    \textbf{n} \cdot t_y &= 0
+\label{eq:gen_constraint_tangents}
+\end{align}
+
+we can use this equation $\ref{eq:gen_constraint_tangents}$ as constraint for our tangent vectors:
+
+\begin{align}
+    \textbf{n}(x,y) \cdot t_x(x,y &= 0 \nonumber \\
+    \textbf{n}(x,y) \cdot t_y(x,y) &= 0
+\label{eq:gen_constraint_tangents}
+\end{align}
+
+For every point $(x,y)$ on the surface $S$.
 
 
 
