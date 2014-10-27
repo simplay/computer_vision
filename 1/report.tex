@@ -257,7 +257,39 @@ In order to do so, we first need to compute the grayscale albedo values $\rho$ f
 \label{eq:grayscale_albedo}
 \end{align}
 
-Therefore, we first have to compute the normal directions, using equation $\ref{eq:normal_photo}$. Then we have to compute the grayscale albedo values using equation $\ref{eq:grayscale_albedo}$ and lastly, we use these grayscale albedos in order to compute the normals (i.e. normalize the normal direction vectors) using equation $\ref{eq:normal_albedo_normalization}$.
+Therefore, we first have to compute the normal directions, using equation $\ref{eq:normal_photo}$. Then we have to compute the grayscale albedo values using equation $\ref{eq:grayscale_albedo}$ and lastly, we use these grayscale albedos in order to compute the normals (i.e. normalize the normal direction vectors) using equation $\ref{eq:normal_albedo_normalization}$. \\
+
+Once we have compute all normal vectors $\textbf{n}$ we use them for solving the following system of equations:
+
+\begin{align}
+    I_{red} &= \rho_{red} S \textbf{n} \nonumber \\
+    I_{green} &= \rho_{green} S \textbf{n} \nonumber \\
+    I_{blue} &= \rho_{blue} S \textbf{n}
+\label{eq:color_albedo_system}
+\end{align}
+
+Where $S$ is the matrix containing all light directions as before, $I_{red}$, $I_{green}$, $I_{blue}$, are the red, green and blue color channels of a corresponding color image and $\textbf{a} = (\rho_{red},\rho_{green},\rho_{blue})$ denotes the color albedo. \\
+
+We then have to solve for every pixel
+
+\begin{align}
+    I &= \textbf{a}(S \cdot \textbf{n}) \nonumber \\
+    (S \cdot \textbf{n})^{-1}I &= \textbf{a}
+\label{eq:albedo_system1}
+\end{align}
+
+Where $I$ is a tensor containing all color channels for every pixel in the image.
+Note that equation $\ref{eq:albedo_system1}$ corresponds to 
+
+\begin{align}
+    I &= \textbf{a}(\textbf{n}) \cdot \textbf{L} \nonumber \\
+    (\textbf{n} \cdot \textbf{L})^{-1}I &= \textbf{a}
+\label{eq:albedo_system2}
+\end{align}
+
+
+
+
 
 \paragraph{3. Surface Fitting (35 points)}
 
