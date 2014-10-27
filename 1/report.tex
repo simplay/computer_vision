@@ -198,7 +198,7 @@ In this section you should:
 \item Display the image of the RGB albedo map for each dataset. 
 \end{itemize}
 
-From given estimated light directions (resulting after solving task 1) I computed the albedo and normals in the following way using the $N=12$ provided color images: \\
+From given estimated light directions (resulting after solving task 1) I computed the albedo and normals in the following way using the $N=12$ provided color images: 
 
 For each pixel $p$ in a given color Image, I computed its luminance $p_l$:
 \begin{equation}
@@ -206,10 +206,58 @@ For each pixel $p$ in a given color Image, I computed its luminance $p_l$:
 \label{eq:liminance}
 \end{equation}
 
-Where $(p_{red}, p_{green}, p_{blue})$ denote the RGB color of pixel $p$. I processed the pixel of an image row-wise and stored all the computed $p_l$ pixel luminance values in a column vector denoted by $l_k$. The index $k$ refers to the k-th color images (assuming they are labeled by an index). I repeated this procedure for every image of the $N$ given color image. I then assambled all the N luminance vectors $l_1, ..., l_N$ to a Matrix $I$, i.e. $I = \left[l_1,...,l_N\right]$. 
+Where $(p_{red}, p_{green}, p_{blue})$ denote the RGB color of pixel $p$. I processed the pixel of an image row-wise and stored all the computed $p_l$ pixel luminance values in a column vector denoted by $l_k$. The index $k$ refers to the k-th color images (assuming they are labeled by an index). I repeated this procedure for every image of the $N$ given color image. I then assambled all the N luminance vectors $l_1, ..., l_N$ to a Matrix $I$, i.e. 
+\begin{equation}
+    I = \left[l_1,...,l_N\right]
+\label{eq:lum_mat}
+\end{equation}
 
+Next I used the system of equations of Photometrix Stereo that we have discussed during the Computer Vision class. This system - shown in equation $\ref{eq:photometric_stereo}$ - gives us a relation between the luminance, the light directions, the albedo and the surface normals.
 
+\begin{equation}
+     I = S\tilde{\textbf{n}}
+\label{eq:photometric_stereo}
+\end{equation}
 
+\begin{itemize}
+    \item $I$ is the matrix from equation $\ref{eq:lum_mat}$, containing all the luminance vectors (its columns) of every provided image. This it is a $N_p$ (number of pixels in a image) by $N$ (number of images).
+    \item $S$ is a matrix containing all (estimated) light directions. Each of its rows contains one particular (estimated) light direction (from L). Thus, in our case it is a $N_p$ by 3 matrix (three components per vector since we are in $\mathbb{R}^3$).
+    \item $\tilde{\textbf{n}}$ denotes the normal direction (not normalized, i.e. not unit length).
+\end{itemize}
+
+We can reformulate equation $\ref{eq:photometric_stereo}$ the following way:
+
+\begin{align*}
+    I &= S\tilde{\textbf{n}} \\
+    S^T I &= S^T (S\tilde{\textbf{n}}) \\
+    S^T I &= (S^T S)\tilde{\textbf{n}} \\
+    (S^T S)^{-1} S^T I &= \tilde{\textbf{n}}
+\end{align*}
+
+From the first equation to the second, we multiplied $S^T$ from the left hand side. From the second to the third, we used the law of associativity and from the third to the fourth equation we simply multiplied $(S^T S)^{-1}$ from the left hand side. This gives us the final identity for the normal:
+
+\begin{equation}
+    \tilde{\textbf{n}} = (S^T S)^{-1} S^T I 
+\label{eq:normal_photo}
+\end{equation}
+
+Using equation $\ref{eq:normal_photo}$ we can reconstruct all the normal directions $\tilde{\textbf{n}}$. Last, we have to normalize this normal direction vectors. We only have to divide each vector $\tilde{\textbf{n}}$ by the grayscale albedo $\rho$.
+
+\begin{equation}
+    \textbf{n} = \frac{\tilde{\textbf{n}}}{\rho} 
+\label{eq:normal_albedo_normalization}
+\end{equation}
+
+In order to do so, we first need to compute the grayscale albedo values $\rho$ for every pixel of every Image. The grayscale albedo of a pixel $p$ is simply the norm of the normal direction of pixel $p$, i.e. 
+
+\begin{align}
+    \rho 
+    &= ||\tilde{\textbf{n}} || \nonumber \\
+    &= \sqrt{\tilde{\textbf{n}}_{x}^2 + \tilde{\textbf{n}}_{y}^2 + \tilde{\textbf{n}}_{z}^2}    
+\label{eq:grayscale_albedo}
+\end{align}
+
+Therefore, we first have to compute the normal directions, using equation $\ref{eq:normal_photo}$. Then we have to compute the grayscale albedo values using equation $\ref{eq:grayscale_albedo}$ and lastly, we use these grayscale albedos in order to compute the normals (i.e. normalize the normal direction vectors) using equation $\ref{eq:normal_albedo_normalization}$.
 
 \paragraph{3. Surface Fitting (35 points)}
 
