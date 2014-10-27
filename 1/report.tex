@@ -476,7 +476,7 @@ Where $z_x$ denotes the partial derivate of $z$ along the $x$-axis and $z_y$ the
 
 \begin{align}
     \textbf{n}(x,y) &= \frac{t_x(x,y) \times t_y(x,y)}{|| t_x(x,y) \times t_y(x,y)||}\nonumber \\
-     &= \frac{(z_x, z_x, -1)^T}{||(z_x, z_x, -1)^T||}
+     &= \frac{(-z_x, -z_x, 1)^T}{||(-z_x, -z_x, 1)^T||}
 \label{eq:tan_plane_normal}
 \end{align}
 
@@ -544,11 +544,13 @@ For every point $(x,y)$ on the surface $S$. Multiplying the equations in equatio
 \label{eq:gen_constraint_tangents_ref1}
 \end{align}
 
+We used $\textbf{n} = ( \textbf{n}_x,  \textbf{n}_y,  \textbf{n}_z)$ where $\textbf{n}$ is the vector from equation $\ref{eq:tan_plane_normal}$. Please note that to keep things simple I omitted to mention the normalization factor of the normalvector. Suppose this is encoded into its components $( \textbf{n}_x,  \textbf{n}_y,  \textbf{n}_z)$. \\
+
 The resulting two constraints from equation $\ref{eq:gen_constraint_tangents_ref1}$ are equivalent to:
 
 \begin{align}
-    -\textbf{n}(x,y)_x &= \left(z(x+1,y)-z(x,y)\right)\textbf{n}(x,y)_z \nonumber \\
-    -\textbf{n}(x,y)_y &= \left(z(x,y+1)-z(x,y)\right)\textbf{n}(x,y)_z
+    -\textbf{n}_x(x,y) &= \left(z(x+1,y)-z(x,y)\right)\textbf{n}_z(x,y) \nonumber \\
+    -\textbf{n}_y(x,y) &= \left(z(x,y+1)-z(x,y)\right)\textbf{n}_z(x,y)
 \label{eq:gen_constraint_tangents_ref2}
 \end{align}
 
@@ -564,6 +566,8 @@ Note that if $z(x,y)$ sovles the system from equation $\ref{eq:gen_constraint_ta
 for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defined the top-left pixel to be the $(x_0, y_0)$, i.e. set the pixel on the top-left corner equal to $(0,0)$. \\
 
 I applied equation $\ref{eq:gen_constraint_tangents_ref2}$ usign the constraint from equation $\ref{eq:uniqueness_constraint}$ in order to retrieve the heights $z(x,y)$, i.e. the depth map, for every pixel on the surface $S$. I applied my algorithm to every dataset. My results are shown in figure $\ref{fig:depthmap}$. \\
+
+Keep in mind to use the definition from equation $\ref{eq:tan_plane_normal}$ in order to compute the actual normal values. \\
 
 Last, let us discuss what are issue-cases for the method discussed in order to retrieve the depth maps. Note that a successful reconstruction is never guaranteed. However, the more images with diverse light directions we use the better the results will get. Also, using more images will reduce the effect of self occlusions and also noise can be reduced. \\
 
