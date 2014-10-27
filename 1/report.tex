@@ -448,15 +448,32 @@ In the following I show my results applied to each provided data. Figure $\ref{f
 
 \paragraph{3. Surface Fitting (35 points)}
 
-Goal: Express the depth of a surface S as a function of a surface normal.
-
-In this section you should: $\mathbb{R}^3$
+In this section you should: 
 
 \begin{itemize}
 \item Describe the algorithm you used for calculating the depth map given the normals you calculated before.
 \item Display the image of the depth map (in colour or grayscale) for each dataset, where higher intensity values indicate points closer to the camera.
 \item Describe, in no more than a few paragraphs, your assessment of when the technique works well, and when there are failures. When the technique fails to produce nice results, please explain as best as you can what the likely causes of the problems are.
 \end{itemize}
+
+
+Goal: Express the depth of a surface S as a function of a surface normal.
+A surface $S$ in $\mathbb{R}^3$ can be defined by a perametrization 
+
+\begin{equation}
+    S(x,y) = (x,y,z(x,y))
+\end{equation}
+
+Where $z(x,y)$ depicts the height field value at the point $(x,y)$. For any point on such a paramterized surface $S$ we can span a tangent plane using its tangent vectors at that point.
+
+\begin{align}
+    t_x &= \frac{\partial S}{\partial x}(x,y) = (1,0,z_x)^T \nonumber \\
+    t_y &= \frac{\partial S}{\partial y}(x,y) = (0,1,z_y)^T
+\end{align}
+
+Where $z_x$ denotes the partial derivate of $z$ along the $x$-axis and $z_y$ the partial derivative along the $y$-axis respectively.
+
+
 
 \paragraph{Failure cases}
 \begin{itemize}
