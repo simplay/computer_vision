@@ -2,7 +2,7 @@
 clear all
 close all
 
-dataDir = 'Images/';
+dataDir = '../Images/';
 chromeDir = [dataDir, 'chrome/'];
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Spatial coordinates:
