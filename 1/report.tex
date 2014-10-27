@@ -454,6 +454,16 @@ In this section you should:
 \item Describe, in no more than a few paragraphs, your assessment of when the technique works well, and when there are failures. When the technique fails to produce nice results, please explain as best as you can what the likely causes of the problems are.
 \end{itemize}
 
+\paragraph{Failure cases}
+\begin{itemize}
+    \item If the material does not exhibit specular hightlights, the method will fail. Actually, materials are assumed to reflect light as a lambertain material does.
+    \item surface must be sufficiently smooth. Objects with many sharp edges will produce bad results.
+    \item Inter reflection is not taken care of.
+    \item Shadows are an issue case, since this method does not take care of self-occlusion.
+\end{itemize}
+
+
+
 \begin{figure}[h!]
     \centering
     \begin{subfigure}{0.3\textwidth}
