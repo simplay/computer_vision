@@ -137,7 +137,7 @@ z
 \label{eq:z_comp}
 \end{align}
 
-In order to derive this identiy we only solved for $z$ using equation $\ref{eq:impl_sphere_norm_normal}$. By plugging equation $\ref{eq:z_comp}$ into equation \ref{eq:impl_sphere_norm_normal} we get the final representation for computign the normals:
+In order to derive this identity we only solved for $z$ using equation $\ref{eq:impl_sphere_norm_normal}$. By plugging equation $\ref{eq:z_comp}$ into equation \ref{eq:impl_sphere_norm_normal} we get the final representation for computing the normals:
 
 \begin{equation}
     \hat{\textbf{n}} = 
@@ -160,7 +160,7 @@ Last, using all these computed normals, we can estimate the light directions usi
 \label{eq:snell_reflection}
 \end{equation}
 
-Where $L_k$ denotes the k-th light source resulting from the k-th normal vector $\hat{\textbf{n}}_k$.  \textbf{d} = $(0,0,-1)$ denotes the direction of the camera from any point.\\
+Where $L_k$ denotes the \emph{k-th} light source resulting from the \emph{k-th} normal vector $\hat{\textbf{n}}_k$.  \textbf{d} = $(0,0,-1)$ denotes the direction of the camera from any point.\\
 
 All retrieved light directions $L_k$ can be assembled into a matrix $\mathbf{L}$. 
 
@@ -183,9 +183,9 @@ All retrieved light directions $L_k$ can be assembled into a matrix $\mathbf{L}$
 
 $\mathbf{L}^T$ denotes the transposed of the matrix $\mathbf{L}$. \\
 
-I computed $(x,y)$ coordinates the sphere center from the given mask matrix. The same holds true for the radius. For the radius I estimated the diameter of the ones-sphere in the mask. basically, I searched for the minimum and maximumum row and column index in the matrix, that was equal to one. Then I computed the difference between the maximum and minimum of - both, clumn, and row indices extrema indices pair - divided them by two (since the diameter of a circle is twice the radius) and took the mean of both resulting radii. Similarly I retrived the center of the sphere. \\
+I computed $(x,y)$ coordinates the sphere center from the given mask matrix. The same holds true for the radius. For the radius I estimated the diameter of the ones-sphere in the mask. basically, I searched for the minimum and maximum row and column index in the matrix, that was equal to one. Then I computed the difference between the maximum and minimum of - both, column, and row indices extrema indices pair - divided them by two (since the diameter of a circle is twice the radius) and took the mean of both resulting radii. Similarly I retrieved the center of the sphere. \\
 
-For every image, I computed the center of the specular highlight - i.e. the center of the spot. I shifted the center of the spot by the center of the chorme sphere and retrieved the normal - using this shifted center - applying equation $\label{eq:final_normal}$.
+For every image, I computed the center of the specular highlight - i.e. the center of the spot. I shifted the center of the spot by the center of the chrome sphere and retrieved the normal - using this shifted center - applying equation $\label{eq:final_normal}$.
 
 
 \paragraph{2. Computing Surface Normals and Grey Albedo (30 points)}
@@ -196,7 +196,7 @@ In this section you should:
 \item Describe the algorithm you used for calculating the albedo and normals given the light directions you estimated (or the approximated one which is provided in case you did not complete the task 1). You need to provide the formula you used to calculate the normals.
 
 \item Display the image of the recovered grayscale albedo map for each dataset.
-\item Display the images of the three normal components (x,y and z directions) or a single colour image with the x,y and z components instead of the R,G, and B components rispectively.
+\item Display the images of the three normal components (x,y and z directions) or a single color image with the x,y and z components instead of the R,G, and B components respectively.
 \item Display the image of the RGB albedo map for each dataset. 
 \end{itemize}
 
@@ -208,13 +208,13 @@ For each pixel $p$ in a given color Image, I computed its luminance $p_l$:
 \label{eq:liminance}
 \end{equation}
 
-Where $(p_{red}, p_{green}, p_{blue})$ denote the RGB color of pixel $p$. I processed the pixel of an image row-wise and stored all the computed $p_l$ pixel luminance values in a column vector denoted by $l_k$. The index $k$ refers to the k-th color images (assuming they are labeled by an index). I repeated this procedure for every image of the $N$ given color image. I then assambled all the N luminance vectors $l_1, ..., l_N$ to a Matrix $I$, i.e. 
+Where $(p_{red}, p_{green}, p_{blue})$ denote the RGB color of pixel $p$. I processed the pixel of an image row-wise and stored all the computed $p_l$ pixel luminance values in a column vector denoted by $l_k$. The index $k$ refers to the \emph{k-th} color images (assuming they are labeled by an index). I repeated this procedure for every image of the $N$ given color image. I then assembled all the N luminance vectors $l_1, ..., l_N$ to a Matrix $I$, i.e. 
 \begin{equation}
     I = \left[l_1,...,l_N\right]
 \label{eq:lum_mat}
 \end{equation}
 
-Next I used the system of equations of Photometrix Stereo that we have discussed during the Computer Vision class. This system - shown in equation $\ref{eq:photometric_stereo}$ - gives us a relation between the luminance, the light directions, the albedo and the surface normals.
+Next I used the system of equations of \emph{Photometric Stereo} that we have discussed during the Computer Vision class. This system - shown in equation $\ref{eq:photometric_stereo}$ - gives us a relation between the luminance, the light directions, the albedo and the surface normals.
 
 \begin{equation}
      I = S\tilde{\textbf{n}}
@@ -291,7 +291,7 @@ Note that equation $\ref{eq:albedo_system1}$ corresponds to
 
 \paragraph{Results}
 
-In the following I show my results applied to each provided data. Figure $\ref{fig:rec_albedo}$ shows the recovered albedo when applying Mathlab's $\emph{imagesc}$ function to our grayscale albedo. Figure $\ref{fig:albedo_lum}$ visualizes the luminance - i.e. the grayscale albedo. In addition I have produced results of the recovered RGB albedo as shown in figure $\ref{fig:albedo_rgb}$. Last I offer the reader two different visualizations depicting the surface normals. Figure $\ref{fig:normals}$ shows the absolute values of the normal vectors, whereat figure $\ref{fig:normals_xyz}$ shows each normal direction separatly.
+In the following I show my results applied to each provided data. Figure $\ref{fig:rec_albedo}$ shows the recovered albedo when applying Mathlab's $\emph{imagesc}$ function to our grayscale albedo. Figure $\ref{fig:albedo_lum}$ visualizes the luminance - i.e. the grayscale albedo. In addition I have produced results of the recovered RGB albedo as shown in figure $\ref{fig:albedo_rgb}$. Last I offer the reader two different visualizations depicting the surface normals. Figure $\ref{fig:normals}$ shows the absolute values of the normal vectors, whereat figure $\ref{fig:normals_xyz}$ shows each normal direction separably.
 
 \begin{figure}[h!]
     \centering
@@ -377,7 +377,7 @@ In the following I show my results applied to each provided data. Figure $\ref{f
     \begin{subfigure}{0.3\textwidth}
         \includegraphics[width=\textwidth]{results/rock/rock_n}
     \end{subfigure}
-    \caption{Visualization of the normals for each dataset. Note that each image shows the absolute value applied to each component of each normal vector. The resulting three components are then interpreted as RGB color values. Hence, the x.-axis is pointing to the right, the y-acis is pointing upwards and the z-axis is pointing towards the viewer. }
+    \caption{Visualization of the normals for each dataset. Note that each image shows the absolute value applied to each component of each normal vector. The resulting three components are then interpreted as RGB color values. Hence, the x.-axis is pointing to the right, the y-axis is pointing upwards and the z-axis is pointing towards the viewer. }
     \label{fig:normals}       
 \end{figure}
 
@@ -452,19 +452,19 @@ In this section you should:
 
 \begin{itemize}
 \item Describe the algorithm you used for calculating the depth map given the normals you calculated before.
-\item Display the image of the depth map (in colour or grayscale) for each dataset, where higher intensity values indicate points closer to the camera.
+\item Display the image of the depth map (in color or grayscale) for each dataset, where higher intensity values indicate points closer to the camera.
 \item Describe, in no more than a few paragraphs, your assessment of when the technique works well, and when there are failures. When the technique fails to produce nice results, please explain as best as you can what the likely causes of the problems are.
 \end{itemize}
 
 
 \textbf{Goal}: Express the depth of a surface S as a function of a surface normal. \\
-A surface $S$ in $\mathbb{R}^3$ can be defined by a perametrization 
+A surface $S$ in $\mathbb{R}^3$ can be defined by a parameterization 
 
 \begin{equation}
     S(x,y) = (x,y,z(x,y))
 \end{equation}
 
-Where $z(x,y)$ depicts the height field value at the point $(x,y)$. For any point on such a paramterized surface $S$ we can span a tangent plane using its tangent vectors at that point.
+Where $z(x,y)$ depicts the height field value at the point $(x,y)$. For any point on such a parameterized surface $S$ we can span a tangent plane using its tangent vectors at that point.
 
 \begin{align}
     t_x &= \frac{\partial S}{\partial x}(x,y) = (1,0,z_x)^T \nonumber \\
@@ -544,7 +544,7 @@ For every point $(x,y)$ on the surface $S$. Multiplying the equations in equatio
 \label{eq:gen_constraint_tangents_ref1}
 \end{align}
 
-We used $\textbf{n} = ( \textbf{n}_x,  \textbf{n}_y,  \textbf{n}_z)$ where $\textbf{n}$ is the vector from equation $\ref{eq:tan_plane_normal}$. Please note that to keep things simple I omitted to mention the normalization factor of the normalvector. Suppose this is encoded into its components $( \textbf{n}_x,  \textbf{n}_y,  \textbf{n}_z)$. \\
+We used $\textbf{n} = ( \textbf{n}_x,  \textbf{n}_y,  \textbf{n}_z)$ where $\textbf{n}$ is the vector from equation $\ref{eq:tan_plane_normal}$. Please note that to keep things simple I omitted to mention the normalization factor of the normal vector. Suppose this is encoded into its components $( \textbf{n}_x,  \textbf{n}_y,  \textbf{n}_z)$. \\
 
 The resulting two constraints from equation $\ref{eq:gen_constraint_tangents_ref1}$ are equivalent to:
 
@@ -556,16 +556,16 @@ The resulting two constraints from equation $\ref{eq:gen_constraint_tangents_ref
 
 Thus, equation $\ref{eq:gen_constraint_tangents_ref2}$ gives us a linear system of equation which we can solve for the height value $z(x,y)$ on the surface $S$. \\
 
-Note that if $z(x,y)$ sovles the system from equation $\ref{eq:gen_constraint_tangents_ref2}$ then also $z(x,y) + c$ $\forall c \in \mathbb{R}$ sovles it. However, we can enforce the existence of a unique solution by introducing an additional constraint
+Note that if $z(x,y)$ solves the system from equation $\ref{eq:gen_constraint_tangents_ref2}$ then also $z(x,y) + c$ $\forall c \in \mathbb{R}$ solves it. However, we can enforce the existence of a unique solution by introducing an additional constraint
 
 \begin{equation}
     z(x_0, y_0) = 0 
 \label{eq:uniqueness_constraint}
 \end{equation}
 
-for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defined the top-left pixel to be the $(x_0, y_0)$, i.e. set the pixel on the top-left corner equal to $(0,0)$. \\
+for just one particular point $(x_0, y_0)$ on $S$. In my implementation is defined the top-left pixel to be the $(x_0, y_0)$, i.e. set the pixel on the top-left corner equal to $(0,0)$. \\
 
-I applied equation $\ref{eq:gen_constraint_tangents_ref2}$ usign the constraint from equation $\ref{eq:uniqueness_constraint}$ in order to retrieve the heights $z(x,y)$, i.e. the depth map, for every pixel on the surface $S$. I applied my algorithm to every dataset. My results are shown in figure $\ref{fig:depthmap}$. \\
+I applied equation $\ref{eq:gen_constraint_tangents_ref2}$ using the constraint from equation $\ref{eq:uniqueness_constraint}$ in order to retrieve the heights $z(x,y)$, i.e. the depth map, for every pixel on the surface $S$. I applied my algorithm to every dataset. My results are shown in figure $\ref{fig:depthmap}$. \\
 
 Keep in mind to use the definition from equation $\ref{eq:tan_plane_normal}$ in order to compute the actual normal values. \\
 
@@ -575,13 +575,13 @@ In the following a list of so called (potential) failure-cases:
     
 \paragraph{Failure cases}
 \begin{itemize}
-    \item If the material does not exhibit specular hightlights, the method will fail. Actually, materials are assumed to reflect light as a lambertain material does.
+    \item If the material does not exhibit specular highlights, the method will fail. Actually, materials are assumed to reflect light as a lambertain material (surface) does.
     \item surface must be sufficiently smooth. Objects with many sharp edges will produce bad results.
     \item Inter reflection is not taken care of.
     \item Shadows are an issue case, since this method does not take care of self-occlusion.
 \end{itemize}
 
-Therefore, our method will work rather well if the material is sufficently smooth and it has specular highlights. Furthermore, we also should not be interested in shadowing effects, due to the fact mentioned in the failure-case list.
+Therefore, our method will work rather well if the material is sufficiently smooth and it has specular highlights. Furthermore, we also should not be interested in shadowing effects, due to the fact mentioned in the failure-case list.
 
 \begin{figure}[h!]
     \centering
