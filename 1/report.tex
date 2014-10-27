@@ -474,10 +474,13 @@ Where $z(x,y)$ depicts the height field value at the point $(x,y)$. For any poin
 
 Where $z_x$ denotes the partial derivate of $z$ along the $x$-axis and $z_y$ the partial derivative along the $y$-axis respectively. The tangent plane spanned by those tangent vectors at a point $(x,y)$ from equation $\ref{eq:tangent_plane_vectors}$ have the following normal vector:
 
-\begin{equation}
-    \textbf{n}(x,y) = \frac{t_x(x,y) \times t_y(x,y)}{|| t_x(x,y) \times t_y(x,y)||}
+\begin{align}
+    \textbf{n}(x,y) &= \frac{t_x(x,y) \times t_y(x,y)}{|| t_x(x,y) \times t_y(x,y)||}\nonumber \\
+     &= \frac{(z_x, z_x, -1)^T}{||(z_x, z_x, -1)^T||}
 \label{eq:tan_plane_normal}
-\end{equation}
+\end{align}
+
+Where we simply have used the definition of the cross product applied to the two tangent vectors $t_x$ and $t_y$. \\
 
 Using a finite difference scheme we can compute numerically the derivatives of the $z$ component used in equation $\ref{eq:tangent_plane_vectors}$. Finite differences origin from a taylor series approximation by using the first order terms. We get the following approximations for the derivatives of $z$ along the x-and y-axis:
 
@@ -502,10 +505,10 @@ we can use this equation $\ref{eq:gen_constraint_tangents}$ as constraint for ou
 \begin{align}
     \textbf{n}(x,y) \cdot t_x(x,y &= 0 \nonumber \\
     \textbf{n}(x,y) \cdot t_y(x,y) &= 0
-\label{eq:gen_constraint_tangents}
+\label{eq:gen_constraint_tangents2}
 \end{align}
 
-For every point $(x,y)$ on the surface $S$. Multiplying the equations in equation $\ref{eq:gen_constraint_tangents}$ out and Applying equation $\ref{eq:fin_diff_approx}$ to it, we get:
+For every point $(x,y)$ on the surface $S$. Multiplying the equations in equation $\ref{eq:gen_constraint_tangents2}$ out and Applying equation $\ref{eq:fin_diff_approx}$ to it, we get:
 
 \begin{align}
     \left(
@@ -562,7 +565,9 @@ for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defin
 
 I applied equation $\ref{eq:gen_constraint_tangents_ref2}$ usign the constraint from equation $\ref{eq:uniqueness_constraint}$ in order to retrieve the heights $z(x,y)$, i.e. the depth map, for every pixel on the surface $S$. I applied my algorithm to every dataset. My results are shown in figure $\ref{fig:depthmap}$. \\
 
-Last, let us discuss what are issue-cases for the method discussed in order to retrieve the depth maps. In the following a list of so called (potential) failure-cases:
+Last, let us discuss what are issue-cases for the method discussed in order to retrieve the depth maps. Note that a successful reconstruction is never guaranteed. However, the more images with diverse light directions we use the better the results will get. Also, using more images will reduce the effect of self occlusions and also noise can be reduced. \\
+
+In the following a list of so called (potential) failure-cases:
     
 \paragraph{Failure cases}
 \begin{itemize}
