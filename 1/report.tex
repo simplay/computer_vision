@@ -476,7 +476,17 @@ Where $z_x$ denotes the partial derivate of $z$ along the $x$-axis and $z_y$ the
 
 \begin{equation}
     \textbf{n}(x,y) = \frac{t_x(x,y) \times t_y(x,y)}{|| t_x(x,y) \times t_y(x,y)||}
+\label{eq:tan_plane_normal}
 \end{equation}
+
+Using a finite difference scheme we can compute numerically the derivatives of the $z$ component used in equation $\ref{eq:tangent_plane_vectors}$. Finite differences origin from a taylor series approximation by using the first order terms. We get the following approximations for the derivatives of $z$ along the x-and y-axis:
+
+\begin{align}
+    z_x(x,y) &= z(x+1,y) - z(x,y) \nonumber \\
+    z_y(x,y) &= z(x,y+1) - z(x,y)
+\label{eq:fin_diff_approx}
+\end{align}
+
 
 
 \paragraph{Failure cases}
