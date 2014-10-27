@@ -151,7 +151,30 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
   imagesc(reshape(albedoGray,imsize) );
   title('Recovered albedo (gray)');
   pause(1);
-
+  
+  % Display gray albedo
+  figure(1337); clf;
+  img_albedo = albedoGray/max(max(albedoGray));
+  imshow(reshape(img_albedo, imsize));
+  title('Gray scale albedo (luminance)');
+  
+  % TODO: comment me out
+  % imwrite(reshape(img_albedo, imsize), ['../results/',name, '_a_lu.png']);
+  
+  pause(1);
+  % Display gray albedo
+  
+  % alternative representation of surface normals
+  figure(13374); clf;
+  imshow(reshape(abs(n), imsize(1),imsize(2), 3))
+  title('showing directions of normals');
+  
+  
+  % TODO: comment me out
+  % imwrite(reshape(abs(n), imsize(1),imsize(2), 3), ['../results/',name, '_n.png']);
+  pause(1);
+  %
+  
   % Display each component of the normal as a separate image.
   n = reshape(n, [imsize, 3]);
   figure(4)
@@ -249,6 +272,7 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
   albedo = max(albedo,0);
   albedo = min(albedo,255);
   figure(3); clf; 
+  % imwrite(reshape(albedo/255, [imsize, 3]), ['../results/',name, '_a_rgb.png']);
   image(reshape(albedo/255, [imsize, 3]));
   title('Recovered Albedo (RGB)');
   axis equal; axis off;
@@ -325,6 +349,7 @@ for useImageSet = 1:6 % or just choose one image set, e.g. 3
     % the darker the further way
     depthmap_img(mask == 1) = 1 - depthmap_img(mask == 1); 
     figure(111); clf; 
+    % imwrite(depthmap_img, ['../results/',name, '_depthmap.png']);
     imshow(depthmap_img);
     title('Depth Map Representation');
     if chatty
