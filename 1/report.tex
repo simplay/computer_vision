@@ -198,6 +198,17 @@ In this section you should:
 \item Display the image of the RGB albedo map for each dataset. 
 \end{itemize}
 
+From given estimated light directions (resulting after solving task 1) I computed the albedo and normals in the following way using the $N=12$ provided color images: \\
+
+For each pixel $p$ in a given color Image, I computed its luminance $p_l$:
+\begin{equation}
+    p_l = p_{red}\cdot 0.299 + p_{green} \cdot 0.587 + p_{blue} \cdot 0.114 
+\label{eq:liminance}
+\end{equation}
+
+Where $(p_{red}, p_{green}, p_{blue})$ denote the RGB color of pixel $p$. I processed the pixel of an image row-wise and stored all the computed $p_l$ pixel luminance values in a column vector denoted by $l_k$. The index $k$ refers to the k-th color images (assuming they are labeled by an index). I repeated this procedure for every image of the $N$ given color image. I then assambled all the N luminance vectors $l_1, ..., l_N$ to a Matrix $I$, i.e. $I = \left[l_1,...,l_N\right]$. 
+
+
 
 
 \paragraph{3. Surface Fitting (35 points)}
@@ -210,6 +221,7 @@ In this section you should:
 \item Describe, in no more than a few paragraphs, your assessment of when the technique works well, and when there are failures. When the technique fails to produce nice results, please explain as best as you can what the likely causes of the problems are.
 \end{itemize}
 
+Some telling what I should do :D
 
 
 
