@@ -513,24 +513,24 @@ For every point $(x,y)$ on the surface $S$. Multiplying the equations in equatio
 \begin{align}
     \left(
         \begin{array}{c}
-            1 \\
-            0 \\
-            z(x+1,y)-z(x,y)
+            \textbf{n}_x(x,y) \\
+            \textbf{n}_y(x,y) \\
+            \textbf{n}_z(x,y)
         \end{array}
     \right) 
     \cdot 
     \left(
         \begin{array}{c}
-            0 \\
             1 \\
-            z(x,y+1)-z(x,y)
+            0 \\
+            z(x+1,y)-z(x,y)
         \end{array}
     \right) &= 0 \nonumber \\
         \left(
         \begin{array}{c}
-            0 \\
-            1 \\
-            z(x,y+1)-z(x,y)
+            \textbf{n}_x(x,y) \\
+            \textbf{n}_y(x,y) \\
+            \textbf{n}_z(x,y)
         \end{array}
     \right) 
     \cdot 
