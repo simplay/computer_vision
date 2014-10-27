@@ -555,14 +555,15 @@ Note that if $z(x,y)$ sovles the system from equation $\ref{eq:gen_constraint_ta
 
 \begin{equation}
     z(x_0, y_0) = 0 
+\label{eq:uniqueness_constraint}
 \end{equation}
 
-for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defined the top-left pixel to be the $(x_0, y_0)$, i.e. set the pixel on the top-left corner equal to $(0,0)$.
+for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defined the top-left pixel to be the $(x_0, y_0)$, i.e. set the pixel on the top-left corner equal to $(0,0)$. \\
 
+I applied equation $\ref{eq:gen_constraint_tangents_ref2}$ usign the constraint from equation $\ref{eq:uniqueness_constraint}$ in order to retrieve the heights $z(x,y)$, i.e. the depth map, for every pixel on the surface $S$. I applied my algorithm to every dataset. My results are shown in figure $\ref{fig:depthmap}$. \\
+
+Last, let us discuss what are issue-cases for the method discussed in order to retrieve the depth maps. In the following a list of so called (potential) failure-cases:
     
-    
-
-
 \paragraph{Failure cases}
 \begin{itemize}
     \item If the material does not exhibit specular hightlights, the method will fail. Actually, materials are assumed to reflect light as a lambertain material does.
@@ -571,7 +572,7 @@ for just one particular point $(x_0, y_0)$ on $S$. In my inplementation is defin
     \item Shadows are an issue case, since this method does not take care of self-occlusion.
 \end{itemize}
 
-
+Therefore, our method will work rather well if the material is sufficently smooth and it has specular highlights. Furthermore, we also should not be interested in shadowing effects, due to the fact mentioned in the failure-case list.
 
 \begin{figure}[h!]
     \centering
