@@ -5,14 +5,14 @@ clc
 maxSize = 500;
 % We assume images have the same size
 left = mean(single(imread('pics/left.jpg')),3);
-[M N] = size(left);
+[M, N] = size(left);
 ratio = max(M,N)/maxSize;
 left = imresize(left,1/ratio);
 
 right = mean(single(imread('pics/right.jpg')),3);
 right = imresize(right,1/ratio);
 
-[rows cols] = size(left);
+[rows, cols] = size(left);
 
 figure(1)
 clf;
@@ -42,13 +42,22 @@ if exist('savedPoints.mat','file') && ~selectNewPoints
     load('savedPoints.mat')
 else
     for i=1:numPoints
-        % TODO: Question 2
+        disp(['Selection of Position ', num2str(i), ' of ', num2str(numPoints), ':']);
+        disp('Mark any Position in the Left image.');
+        [x, y] = ginput(1);
+        leftPoints(:,i) = [x, y, 1]';
+        
+        disp('Mark the corresponding Position in the Right image.');
+        [x, y] = ginput(1);
+        rightPoints(:,i) = [x, y, 1]';
+        clc
     end
     
     if savePoints
         save('savedPoints.mat','leftPoints','rightPoints');
     end
 end
+
 
 % Computing the fundamental matrix
 F = eightPointsAlgorithm(leftPoints,rightPoints);  
