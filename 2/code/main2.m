@@ -74,7 +74,52 @@ for k=1:4
     if (k==2) sign = -sign; end
     tmpR90 = tmpR90';
 end
+
+% reshape to a 3x3xN tensor condaining all N 3x3 candidate rotational transformations. 
 candidateRotation = reshape(shiftdim(candidateRotation,1)', 3, 3, idx);
+R = candidateRotation;
+
+candidateTranslations = zeros(3,1,2);
+t_x = V*R90*S*V';
+t = [t_x(3,2); t_x(1,3); t_x(2,1)];
+t = t/norm(t);
+candidateTranslations(:,:,1) = U(:,end);
+candidateTranslations(:,:,2) = -U(:,end);
+t = candidateTranslations;
+% get best combination
+current = -Inf;
+f = 4;
+for k=1:2
+    for j=1:2
+        %R(:,:,k) = Rr;
+        %t(:,j) = Tr;
+        a = repmat(R(1,:,k),size(rightPoints,2),1) - repmat(rightPoints(1,:)',1,3).*repmat(R(3,:,k),size(rightPoints,2),1);
+        x3 = sum(a .* repmat(t(:,j), 1, size(rightPoints,2))',2) ./  sum(a .* leftPoints',2);
+        
+        % update points if we find a rotation, translation combination
+        % where numbers in front of the camera is larger
+        numPositiveZ = length(find(x3 >= 0));
+        if numPositiveZ > current
+            current = numPositiveZ;
+            x1 = x3 ./ f .* leftPoints(1,:)';
+            x2 = x3 ./ f .* leftPoints(2,:)';
+            p = [x1,x2,x3]';
+        end
+    end
+end
+
+
+%plot 3D points
+x = p(1,:)';
+y = p(2,:)';
+z = p(3,:)';
+
+figure(2);
+scatter3(x,y,z, 'MarkerEdgeColor', [0,0,0], 'MarkerFaceColor', [0.5,0.5,0.5]);
+title('Reconstructed 3D-image');
+
+
+%candidateTranslations = size(
 
 % TODO: Reconstrct the 3D points (Question 3)
 
