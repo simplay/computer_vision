@@ -39,6 +39,8 @@ function F = eightPointsAlgorithm(leftPositions, rightPositions)
     % reconstruct F (which is now rank two). Also normalze it by the image
     % transformations.
     F = U*S*V';
+    
+    % transform the fundamental matrix back to original units.
     F = rightTransform'*F*leftTransform;
 end
 
@@ -78,7 +80,9 @@ function normalizationTransformation = getPositionNormalizationTransform(positio
     meanDistance = mean(dist2Center);
     
     % ensure that the mean distance of the points to the origin is sqrt(2).
-    % for this we define the scale factor s.
+    % for this we define the scale factor s. I.e. center coordinates such
+    % that mean squared distance between the origin and the points is 2
+    % pixels.
     s = sqrt(2)/meanDistance;
     
     % define a homogenous transformation matrix that scales that

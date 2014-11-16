@@ -45,10 +45,14 @@ else
         disp(['Selection of Position ', num2str(i), ' of ', num2str(numPoints), ':']);
         disp('Mark any Position in the Left image.');
         [x, y] = ginput(1);
+        
+        % 2D homogenous coordinates: Positions have a 1 as their last component.
         leftPoints(:,i) = [x, y, 1]';
         
         disp('Mark the corresponding Position in the Right image.');
         [x, y] = ginput(1);
+        
+        % 2D homogenous coordinates: Positions have a 1 as their last component. 
         rightPoints(:,i) = [x, y, 1]';
         clc
     end
@@ -60,21 +64,83 @@ end
 
 
 % Computing the fundamental matrix
-F = eightPointsAlgorithm(leftPoints,rightPoints);  
+F = eightPointsAlgorithm(leftPoints,rightPoints); 
 
+% epipolar line left image is equal to the kernel of F, since F*e = 0
+% epipolar line right image is equal to the kernel of F', since F'*e' = 0
+epipoleLeft = null(F);
+epipoleRight = null(F');
 
+% In order to retrieve image coordiantes of epipole positions 
+% perform a homogeneous division (e.x/e.w, e.y/e.w).
+leftEpipolePosition = epipoleLeft/epipoleLeft(3);
+rightEpipolePosition = epipoleRight/epipoleRight(3);
 
 disp('Select a point in the left image. Press ESC to exit.');
 while true
     
-
-    [x, y, key] = ginput(1);
+    % coordinates of points selected in the left image
+    [px, py, key] = ginput(1);
+    leftPoint = [px; py; 1];
     if key==27
         break;
     end
     
-    % TODO: Question 4
+    subplot(1,2,1);
+    imagesc(left);
+    hold on
+    
+    % plot clicked point
+    plot(px, py,'c.');
+    
+    % general Form of a line ax + by + c = 0
+    % thus y = (-c - ax)/b
+    leftEpipolarLineCoeff = cross(epipoleLeft, leftPoint);
+    a = leftEpipolarLineCoeff(1); 
+    b = leftEpipolarLineCoeff(2); 
+    c = leftEpipolarLineCoeff(3);
+    
+    % left epiline 
+    xLeft = [0; size(left,2)]; yLeft = (-c-a*xLeft)/b;
+    
+    % plot epipolar line in the left image
+    plot(xLeft, yLeft, 'r-');
+    
+    subplot(1,2,2);
+    imagesc(right);
+    hold on
+    
+    % general Form of a line ax + by + c = 0
+    % thus y = (-c - ax)/b
+    rightEpipolarLineCoeff = F*leftPoint;
+    a = rightEpipolarLineCoeff(1); 
+    b = rightEpipolarLineCoeff(2); 
+    c = rightEpipolarLineCoeff(3);
+    
+    % left epiline 
+    xRight = [0; size(right,2)]; yRight = (-c-a*xRight) / b;
+    
+    % plot epipolar line in the right image
+    plot(xRight, yRight, 'b-');
 end
 
-% Compute epipoles
-% TODO: Question 5
+% plot epipoles numerically
+figure('name', 'Epipole e in the left image in red and Epipole e prime in the right image in blue');
+plot(leftEpipolePosition(1),leftEpipolePosition(2),'ro');
+hold on
+plot(rightEpipolePosition(1),rightEpipolePosition(2),'bo');
+xlabel('x');
+ylabel('y');
+
+% 
+figure, imagesc(left);
+colormap(gray)
+hold on
+plot(leftEpipolePosition(1),leftEpipolePosition(2),'ro');
+
+figure, imagesc(right);
+colormap(gray)
+hold on
+plot(rightEpipolePosition(1),rightEpipolePosition(2),'bo');
+
+
