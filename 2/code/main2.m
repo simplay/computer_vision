@@ -25,10 +25,26 @@ A=load('Matched Points/Matched_Points.txt');
 leftPoints = [A(:,3)'; A(:,4)'; ones(1,M)];
 rightPoints = [A(:,1)'; A(:,2)'; ones(1,M)];
 
-F = eightPointsAlgorithm(leftPoints,rightPoints);  
+F = eightPointsAlgorithm(leftPoints,rightPoints); 
+disp('Fundamental matrix F is equal to:')
+disp(F);
+if (rank(F) == 2)
+    disp('F has rank 2');
+else
+    disp('Error: F has not rank 2');
+end
 
-E = zeros(3);
 % TODO: Compute Essential Matrix (Question 1)
+K = [-83.33333,     0.00000,   250.00000;
+       0.00000,   -83.33333,   250.00000;
+       0.00000,     0.00000,     1.00000];
+
+E = K'*F*K;
+disp('Essential matrix E is equal to:')
+disp(E);
+
+
+
 
 Rl = zeros(3);
 tl = zeros(3,1);
