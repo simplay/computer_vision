@@ -14,7 +14,7 @@ right = imresize(right,1/ratio);
 
 [rows, cols] = size(left);
 
-figure(1)
+figure('Position',[100,100,1024,800])
 clf;
 subplot(1,2,1);
 imagesc(left);
@@ -124,23 +124,10 @@ while true
     plot(xRight, yRight, 'b-');
 end
 
-% plot epipoles numerically
+% show epipoles in a x-y plane
 figure('name', 'Epipole e in the left image in red and Epipole e prime in the right image in blue');
 plot(leftEpipolePosition(1),leftEpipolePosition(2),'ro');
 hold on
 plot(rightEpipolePosition(1),rightEpipolePosition(2),'bo');
 xlabel('x');
 ylabel('y');
-
-% 
-figure, imagesc(left);
-colormap(gray)
-hold on
-plot(leftEpipolePosition(1),leftEpipolePosition(2),'ro');
-
-figure, imagesc(right);
-colormap(gray)
-hold on
-plot(rightEpipolePosition(1),rightEpipolePosition(2),'bo');
-
-
