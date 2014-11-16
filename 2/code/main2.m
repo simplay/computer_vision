@@ -52,6 +52,29 @@ Rr = zeros(3);
 tr = zeros(3,1);
 % TODO: Compute Rotations and translatiosn between views (Question 2)
 
+R90 = [0 -1 0; 1 0 0; 0 0 1];
+
+
+[U,S,V] = svd(E);
+tmpR90 = R90;
+sign = 1;
+idx = 0;
+candidateRotation = [];
+%%
+
+% compute all 4 candidate rotations
+for k=1:4
+    tmpR = sign*U*tmpR90*V;
+    
+    if det(tmpR) > 0
+        idx = idx + 1;
+        candidateRotation = [candidateRotation,tmpR];
+    end
+    
+    if (k==2) sign = -sign; end
+    tmpR90 = tmpR90';
+end
+candidateRotation = reshape(shiftdim(candidateRotation,1)', 3, 3, idx);
 
 % TODO: Reconstrct the 3D points (Question 3)
 
