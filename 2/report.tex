@@ -228,7 +228,33 @@ the last remaining step is to transform the fundamental matrix $F_{rank=2}$ back
 
 This final transformation undoes all previous unit transformations (resulted from transforming into left image, right image positions). The matrix $F$ from equation $\ref{eq:fundamental_matrix_rank2_final}$ denotes the Fundamental matrix fulfilling the rank two constraint used in order to estimate the epiplar geometry. \\
 
- 
+Next, we use $F$ and apply the following epipolar constraints to it:
+
+\begin{align*}
+F e = 0 \\
+F^{T} e' = 0 
+\end{align*}
+
+Where $e$ is the epipole in the left image and $e'$ denotes the epipole in the right image. We can solve for $e$ and $e'$ by computing the kernel of the matrix $F$ and $F^{T}$ respectively. The cross product between the left epipole and any point in the left image gives us the the coefficients of a general line in a two dimensional space. This will us allow us to fit a line through the left image. \\
+
+Mathematically, this corresponds to:
+
+\begin{equation}
+    (a,b,c) = e \times p_{left}
+\end{equation}
+
+and then we have to evaluate the line general line quation 
+
+\begin{equation}
+    ax + by + c = 0
+\end{equation}
+
+We solve this equation for $y$ using $x = [0,lengt(Image_{left})]$. \\
+
+The corresponding epipole line on the right image can be obtained by applying the fundamental matrix to the point selected in the left image. This gives us a vector with three components. We again use these three components as line coefficients for a line though space. \\
+
+In the following I demonstrate some sample results produced by my Matlab code:
+
 
 
 
