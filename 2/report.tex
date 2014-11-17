@@ -267,16 +267,48 @@ In the following I demonstrate some sample results produced by my Matlab code:
 
 \subsection{Model reconstruction (50 points)}
 
-From a huge set of matching points from both images we want to reconstruct its corresponding 3d geometry relying on the eight-point algorithm. In this task we are only provided by the extrinsic paramter $K$ which is describing the camera view. \\
+From given (large) set of matching points of both cow-images, left and right, we want to reconstruct its corresponding 3d geometry by relying on the eight-point algorithm. In this task we are only provided by the extrinsic paramter $K$ which is describing the camera calibration. \\
 
-We first estimate the fundamental matrix $F$, using all matching points from the given data-set. Note that there are more than eight given points we pass to the eight-point algorithm. \\
+We first estimate the fundamental matrix $F$, using all matching points from the provided data-set. Note that there are more than eight given points that we pass to our eight-point algorithm. \\
 
+This gives us the following matrix for F:
+
+\begin{align}
+F = 
+\left(\begin{array}{rrr}
+   -0.0000  & -0.0000 &   0.0075 \\
+   -0.0000  &  0.0000 &   0.0183 \\
+    0.0001  & -0.0137 &  -1.9810 \\
+\end{array} \right)
+\end{align}
+
+For solving this task we were provided by the camera calibration matrix $K$.  
 Using the estimated Fundamental matrix $F$ we can compute the essential matrix $E$.
 
 \begin{equation}
-    E = K'^{-T} F K
+    F = K'^{-T} E K^{-1}
+\label{eq:ektfk}
 \end{equation}
 
+The provided matching points from both images were taken by the same camra. Thus, for our case $K$ is equal to $K'$. Thus, we simply can solve for $E$ in equation $\ref{eq:ektfk}$ which is thus equal to
+
+\begin{align}
+    E = K^{T} F K
+\end{align}
+
+Solving for the essential matrix in this task gives us:
+
+\begin{align}
+E = 
+\left(\begin{array}{rrr}
+   -0.0005  & -0.1340 &  -0.2203 \\
+   -0.0025  &  0.0188 &  -1.5708 \\
+    0.0013  &  1.4839 &   0.0002 \\
+\end{array} \right)
+\end{align}
+
+
+% TODO why do we need to compute the essential matrix E
 
 
 Last we want to reconstruct 3d points $(x,y,z)$ from corresponding image points. More precisely, we want to compute the 3d points given corresponding normalized image coordinates 
