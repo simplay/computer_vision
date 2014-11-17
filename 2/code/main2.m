@@ -1,5 +1,5 @@
 clear all
-%close all
+close all
 clc
 
 left = mean(double(imread('Matched Points/left.jpg')),3);
@@ -18,13 +18,12 @@ colormap(gray)
 title('Right Image');
 
 A=load('Matched Points/Matched_Points.txt');
-[M N] = size(A);
-
-
+[M, N] = size(A);
 
 leftPoints = [A(:,3)'; A(:,4)'; ones(1,M)];
 rightPoints = [A(:,1)'; A(:,2)'; ones(1,M)];
 
+% estimate the fundamental matrix from the given matching points.
 F = eightPointsAlgorithm(leftPoints,rightPoints); 
 disp('Fundamental matrix F is equal to:')
 disp(F);
@@ -39,12 +38,10 @@ K = [-83.33333,     0.00000,   250.00000;
        0.00000,   -83.33333,   250.00000;
        0.00000,     0.00000,     1.00000];
 
+% computation of the essential matrix.
 E = K'*F*K;
 disp('Essential matrix E is equal to:')
 disp(E);
-
-
-
 
 Rl = zeros(3);
 tl = zeros(3,1);
@@ -98,9 +95,16 @@ for k=1:size(candidateRotation,3)
         %candidateRotation(:,:,k) = Rr;
         %candidateTranslations(:,j) = Tr;
         
-        a = repmat(candidateRotation(1,:,k),size(rightPoints,2),1) ...
-            - repmat(rightPoints(1,:)',1,3).*repmat(candidateRotation(3,:,k),size(rightPoints,2),1);
-        z = sum(a .* repmat(candidateTranslations(:,j), 1, size(rightPoints,2))',2) ./  sum(a .* leftPoints',2);
+        % Apply the formula from en.wikipedia.org/wiki/Essential_matrix
+        % in order to reconstruct the height z.
+        r1 = repmat(candidateRotation(1,:,k),size(rightPoints,2),1);
+        pr_x = repmat(rightPoints(1,:)',1,3);
+        r3 = repmat(candidateRotation(3,:,k),size(rightPoints,2),1);
+        r1_minus_prx_r3 = r1 - pr_x.*r3;
+        t = repmat(candidateTranslations(:,j), 1, size(rightPoints,2))';
+        z = sum(r1_minus_prx_r3.*t, 2)./sum(r1_minus_prx_r3 .* leftPoints',2);
+        
+        % save current height values.
         zComponents(:,:,idx) = z;
         idx = idx + 1;
     end
@@ -124,10 +128,8 @@ end
 
 %plot 3D points
 z = zComponents(:,:,bestZIdx);
-x = z ./ f .* leftPoints(1,:)';
-y = z ./ f .* leftPoints(2,:)';
+x = (z .* leftPoints(1,:)')/f;
+y = (z .* leftPoints(2,:)')/f;
 
-figure(2);
+figure('name', 'Reconstructed 3D-image');
 scatter3(x,y,z, 'MarkerEdgeColor', [0,0,0], 'MarkerFaceColor', [0.5,0.5,0.5]);
-title('Reconstructed 3D-image');
-
