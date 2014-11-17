@@ -267,5 +267,28 @@ In the following I demonstrate some sample results produced by my Matlab code:
 
 \subsection{Model reconstruction (50 points)}
 
+From a huge set of matching points from both images we want to reconstruct its corresponding 3d geometry relying on the eight-point algorithm. In this task we are only provided by the extrinsic paramter $K$ which is describing the camera view. \\
+
+We first estimate the fundamental matrix $F$, using all matching points from the given data-set. Note that there are more than eight given points we pass to the eight-point algorithm. \\
+
+Using the estimated Fundamental matrix $F$ we can compute the essential matrix $E$.
+
+\begin{equation}
+    E = K'^{-T} F K
+\end{equation}
+
+
+
+Last we want to reconstruct 3d points $(x,y,z)$ from corresponding image points. More precisely, we want to compute the 3d points given corresponding normalized image coordinates $(p^{l}_{x}, p^{l}_{y})$ from the left image and image coordinates from the right image $(p^{r}_{x}, p^{r}_{y})$. Assuming that the essential matrix $E$ is known and the corresponding rotation $R$ and translation $t$ transformations have been determined, we can apply the algorithm from Longuet-Higgins's Paper. \\
+
+In the following let $r_k$ denote the k-th row of the rotation transformation $R$.
+
+
+
+
+
+
+
+
 
 \end{document}
