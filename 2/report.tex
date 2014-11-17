@@ -341,17 +341,66 @@ In summary, we found that for the essential matrix (under ideal conditions) the 
     E = [t]_x R = U \Sigma V^{T}
 \end{equation}
 
+Under ideal conditions, the singular values stored in the $3 \times 3$ diagonal matrix $\Sigma$ are the same. However, in practise, the singular values differ due to various reasons such as numerical issues, not perfect calibrations and many more. Nevertheless, according to the rank-2 constraint on $F$, the last component singular value is equal to zero. \\
+
+The diagonal entries of $\mathbf{\Sigma}$ are the singular values of $\mathbf{E}$ which, according to the internal constraints of the essential matrix, must consist of two identical and one zero value. Therefore we define 
+
+\begin{align}
+    R_{90} = 
+    \left(\begin{array}{rrr}
+       0  & -1 &  0 \\
+       1  &  0 &  0 \\
+       0  & 0 &  1 \\
+\end{array} \right)
+\end{align}
+
+with 
+
+\begin{align}
+    R_{90}^{-1} = R_{90}^{T}
+\end{align}
 
 
 
 
-% TODO why do we need to compute the essential matrix E
+and make the following ansatz:
 
+\begin{align}
+    [t]_x = V R_{90} \Sigma V^{T} \\
+    R = U R_{90}^{-1} V^{T}
+\label{eq:ansatz}
+\end{align}
 
+Instead of using the provided definition of $[t]_x$ we can alter it to
 
+\begin{align}
+    [t]_x  = 
+    \left(\begin{array}{r}
+       U_{13} \\
+       U_{23} \\  
+       U_{33} \\
+\end{array} \right)
+\end{align}
 
+Where we use the last column of us (which is paired with the smallest singular value, when multiplying the decomposition out) $U$ is the one component of the essential matrix' SVD. Thus, in short t corresponds to the last column of U up to a certain scaling. \\
 
+Using the ansatz from equation $\ref{eq:ansatz}$ we just get one particular candidate solution. However there are more. Actually there exist four possible rotation transformation matrices and two possible translation matrices, i.e.
 
+\begin{align}
+    R = \pm U R_{90}^{\pm 1} V^{T} \\
+    t = \pm 
+        \left(\begin{array}{r}
+       U_{13} \\
+       U_{23} \\  
+       U_{33} \\
+\end{array} \right)
+\end{align}
+
+The cartesian product between $R$ and $t$ gives us the total number of candidate transformation solutions we have to examine. This is equal to eight candidate solutions. \\
+
+It is possible to reduce the solution space we have to take into account to. We only take rotation transformation matrices that have a determinate equal to one (i.e. they exhibit a positive rotation orientation). Remember that the determinant of a matrix describing a rotation is always either equal one or equal to minus one. Considering the possible sign and transpose combinations we see that there will always two rotation matrices having a determinant equal to one and the other two equal to minus one. \\
+
+For the remaining solution candidates, we reconstruct their depth $z$ - following the procedure as described below and take the rotation-translation combination exhibiting the most points lying in front of the camera (i.e. having a positive z-value/depth value). \\
 
 Last we want to reconstruct 3d points $(x,y,z)$ from corresponding image points. More precisely, we want to compute the 3d points given corresponding normalized image coordinates 
 
