@@ -291,7 +291,9 @@ Using the estimated Fundamental matrix $F$ we can compute the essential matrix $
 \label{eq:ektfk}
 \end{equation}
 
-The provided matching points from both images were taken by the same camra. Thus, for our case $K$ is equal to $K'$. Thus, we simply can solve for $E$ in equation $\ref{eq:ektfk}$ which is thus equal to
+In general, the essential matrix gives us the relative rotation and translation between the cameras of their extrinsic parameter. An illustration of this definition is shown in figure $\ref{fig:epipolar_constraints}$. \\
+
+The provided matching points from both images were taken by the same camera. Thus, for our case $K$ is equal to $K'$. Thus, we simply can solve for $E$ in equation $\ref{eq:ektfk}$ which is thus equal to
 
 \begin{align}
     E = K^{T} F K
