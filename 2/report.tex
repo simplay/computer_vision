@@ -88,17 +88,151 @@ Given the following epipolar constraint
 \end{align}
 
 Where $F$ denotes the (yet) unknown Fundamental matrix we are looking for. By solving the minmizing problem 
-\begin{align*}
+\begin{align}
     \min_{\bf{F}} \sum^{N}_{k=1} \left(\textbf{x'}_{k}^{T} \textbf{F} \textbf{x}_{k}\right)^2 s.t. ||\textbf{F}||^2 = 1
-\end{align*}
+\label{eq:min_problem}
+\end{align}
  We we can therefore retrieve $F$. \\
  In the following I describe some further steps in detail how to compute the fundamental matrix $F$ using above's insights. \\
 
 We start by explicitly showing all components in the epipolar constraint from equation $\ref{eq:epipolar_constraint}$: 
 
+\begin{align}
+\left(\begin{array}{ccc}
+u' & v' & 1
+\end{array}
+\right)
+\left(\begin{array}{ccc}
+f_{11} & f_{12} & f_{13} \\
+f_{21} & f_{22} & f_{23} \\
+f_{31} & f_{32} & f_{33} \\
+\end{array} \right)
+\left(\begin{array}{c}
+u \\
+v \\
+1
+\end{array}
+\right)
+= 0
+\label{eq:fundamental_matrix_block_form}
+\end{align}
+
+which is the same as
+
 \begin{align*}
-    s = s
+\left(\begin{array}{ccccccccc}
+u' u & u' v & u' & v' u & v' v & v' & u & v & 1
+\end{array}
+\right)
+\cdot
+\left(\begin{array}{c}
+f_{11} \\
+f_{12} \\
+f_{13} \\
+f_{21} \\
+f_{22} \\
+f_{23} \\
+f_{31} \\
+f_{32} \\
+f_{33}
+\end{array}
+\right)
+= 0
 \end{align*}
+
+Let us define 
+
+\begin{equation}
+Y = 
+\left(\begin{array}{ccccccccc}
+u' u & u' v & u' & v' u & v' v & v' & u & v & 1
+\end{array}
+\right)
+\end{equation}
+
+
+
+and 
+
+\begin{equation}
+    f = \left(\begin{array}{c}
+f_{11} \\
+f_{12} \\
+f_{13} \\
+f_{21} \\
+f_{22} \\
+f_{23} \\
+f_{31} \\
+f_{32} \\
+f_{33}
+\end{array}
+\right)
+\end{equation}
+
+thus, we solving 
+\begin{equation}
+ Y \cdot f = 0
+\end{equation}
+
+will solve the equation $\ref{eq:min_problem}$. Such a system of equations can usually be solved by using a SVD docompositon of the system. We choose f as the left singular vector that corresponds to the smallest singular value of $Y$. Thus let us apply the singular value decomposition on $Y$:
+
+\begin{equation}
+    Y = U \Sigma V^{T}
+\label{eq:svd_y}
+\end{equation}
+
+Where U,V are orthonormal (rotation) matrices (i.e. $U U^{T} = I = U^{T} U$ same for V), and $\Sigma$ is a diagonal matrix containing all singular values of $Y$ in an ascending order. This means, the highest singular values is the first diagonal element, the smalles singular value is the last diagonal element of $\Sigma$. \\
+
+Since we are interested in the left singular vector that corresponds to the the smallest singular values in $\Sigma$ we have to take the last column of $U$. Therefore we assign f by the last column of U, i.e. 
+
+\begin{equation}
+    f = \left(\begin{array}{c}
+U_{19} \\
+U_{29} \\
+U_{39} \\
+U_{49} \\
+U_{59} \\
+U_{69} \\
+U_{79} \\
+U_{89} \\
+U_{99}
+\end{array}
+\right)
+\end{equation}
+ 
+Going back to the definition from equation $\ref{eq:fundamental_matrix_block_form}$ of the fundamental matrix $F$ we get
+
+\begin{align}
+\left(\begin{array}{ccc}
+U_{19} & U_{29} & U_{39} \\
+U_{49} & U_{59} & U_{69} \\
+U_{79} & U_{89} & U_{19} \\
+\end{array} \right)
+\end{align}
+
+
+Next we have to enforce the rank-2 constraint by setting the smallest singular value of F's SVD to zero. Formally, this corresponds to decompose F into its SVD components, set the last component of its matrix $\Sigma$ to zero and compute 
+
+\begin{align}
+    F_{rank=2} = U \Sigma' V^{T}
+\end{align}
+
+where $\Sigma$ denotes the modified $3 \times 3$ singular value diagonal matrix $\Sigma$ with the last singular value set to zero. \\
+
+the last remaining step is to transform the fundamental matrix $F_{rank=2}$ back to original units. This can be achieved by multiplying the point-set normalization matrices $T_l$ and $T_r$ to $F_{rank=2}$:
+
+\begin{equation}
+    F = T_{r}^{T} F_{rank=2} T_{l} 
+\label{eq:fundamental_matrix_rank2_final}
+\end{equation}
+
+This final transformation undoes all previous unit transformations (resulted from transforming into left image, right image positions). The matrix $F$ from equation $\ref{eq:fundamental_matrix_rank2_final}$ denotes the Fundamental matrix fulfilling the rank two constraint used in order to estimate the epiplar geometry. \\
+
+ 
+
+
+
+
 
  
 
