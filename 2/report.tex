@@ -76,7 +76,31 @@ s & 0 & -c_1 s \\
 
 Where the scaling factor $s$ is the distance scaling (such that the mean squared distance of each position to the origin is equal two pixels) and $(-s c_1, -s c_2)$ is the translation to the origin. \\
 
-For both point sets, \emph{left} and \emph{right}, we have to compute such a homogenous transformation matrix. Then we have to apply these transformations to their points. We denote the normalization transformation for the left point set as $T_{l}$ and for the right point set as $T_{r}$.
+For both point sets, \emph{left} and \emph{right}, we have to compute such a homogenous transformation matrix. Then we have to apply these transformations to their points. We denote the normalization transformation for the left point set as $T_{l}$ and for the right point set as $T_{r}$. \\
+
+Next, let us consider the two points $\textbf{x} = (u,v,1)^{T}$ and $\textbf{x'} = (u',v',1)^{T}$ where $\textbf{x}$ is a normalized point from the left image (using $T_l$) and $\textbf{x'}$ a normalized point from the right image. \\
+
+Given the following epipolar constraint 
+
+\begin{align}
+    \textbf{x'}^{T} F \textbf{x} = 0
+\label{eq:epipolar_constraint}
+\end{align}
+
+Where $F$ denotes the (yet) unknown Fundamental matrix we are looking for. By solving the minmizing problem 
+\begin{align*}
+    \min_{\bf{F}} \sum^{N}_{k=1} \left(\textbf{x'}_{k}^{T} \textbf{F} \textbf{x}_{k}\right)^2 s.t. ||\textbf{F}||^2 = 1
+\end{align*}
+ We we can therefore retrieve $F$. \\
+ In the following I describe some further steps in detail how to compute the fundamental matrix $F$ using above's insights. \\
+
+We start by explicitly showing all components in the epipolar constraint from equation $\ref{eq:epipolar_constraint}$: 
+
+\begin{align*}
+    s = s
+\end{align*}
+
+ 
 
 
 
