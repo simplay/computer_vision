@@ -279,13 +279,57 @@ Using the estimated Fundamental matrix $F$ we can compute the essential matrix $
 
 
 
-Last we want to reconstruct 3d points $(x,y,z)$ from corresponding image points. More precisely, we want to compute the 3d points given corresponding normalized image coordinates $(p^{l}_{x}, p^{l}_{y})$ from the left image and image coordinates from the right image $(p^{r}_{x}, p^{r}_{y})$. Assuming that the essential matrix $E$ is known and the corresponding rotation $R$ and translation $t$ transformations have been determined, we can apply the algorithm from Longuet-Higgins's Paper. \\
+Last we want to reconstruct 3d points $(x,y,z)$ from corresponding image points. More precisely, we want to compute the 3d points given corresponding normalized image coordinates 
+
+\begin{align}
+    \textbf{p}^{l} = (p^{l}_{x}, p^{l}_{y})
+\end{align}
+
+from the left image and image coordinates from the right image
+\begin{align}
+    \textbf{p}^{r} = (p^{r}_{x}, p^{r}_{y})
+\end{align}
+
+Assuming that the essential matrix $E$ is known and the corresponding rotation $R$ and translation $t$ transformations have been determined, we can apply the algorithm from Longuet-Higgins's Paper. \\
 
 In the following let $r_k$ denote the k-th row of the rotation transformation $R$.
 
 
 
 
+
+
+
+
+
+
+Combining the above relations between 3D coordinates in the two coordinate systems and the mapping between 3D and 2D points described earlier gives
+
+\begin{align}
+    p^{r}_{x} 
+    &= \frac{x}{z} \\
+    &= \frac{\mathbf{r}_{1} \cdot (\textbf{p}^{l} - \mathbf{t}/z)}{\mathbf{r}_{3} \cdot (\textbf{p}^{l} - \mathbf{t}/z)}  
+\end{align}
+
+
+Reformulating equation $\ref{eq:3d_reconstr_eq}$ we can solve for the height component $z$ from the 3d points as the following:
+
+\begin{equation}
+    z =  \frac{ (\mathbf{r}_{1} - p^{r}_{x} \, \mathbf{r}_{3}) \cdot \mathbf{t} }{ (\mathbf{r}_{1} - p^{r}_{x} \, \mathbf{r}_{3}) \cdot \textbf{p}^{l} }
+\end{equation}
+
+
+\begin{align}
+\begin{pmatrix} x \\ y \end{pmatrix} = z \cdot \textbf{p}^{l}
+\label{eq:find_x_y_3d_points}
+\end{align}
+
+
+In practise we also have to take the focal length of the camera in order to perform the computations stated in equation $\ref{eq:find_x_y_3d_points}$. Thus in practise we perform the following:
+
+
+
+     
 
 
 
