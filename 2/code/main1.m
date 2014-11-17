@@ -2,7 +2,8 @@ clear all
 close all
 clc
 
-useZytglogge = false;
+% set this flag to true if you want to run the zytglogge example
+useZytglogge = true;
 fileName = 'cow_savedPoints.mat';
 if useZytglogge
     fileName = 'zyt_savedPoints.mat';
@@ -29,12 +30,7 @@ else
     disp('loaded cow example');
 end
 
-
-
-
-
 [rows, cols] = size(left);
-
 figure()
 clf;
 subplot(1,2,1);
