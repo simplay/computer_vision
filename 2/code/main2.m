@@ -2,6 +2,37 @@ clear all
 close all
 clc
 
+shouldRunSamples = true;
+useLeft = false;
+
+if shouldRunSamples
+    if useLeft
+        disp('running on given rotation Rl and translation Tl');
+    else
+        disp('running on given rotation Rr and translation Tr');
+    end
+else
+    disp('running on estimated rotation R and translation t');
+end
+
+% Extrinsic parameters
+Rr = [ 0.92848,  -0.12930,   0.34815;
+       0.00000,   0.93744,   0.34815;
+      -0.37139,  -0.32325,   0.87039];
+
+Tr = [2.0;
+      2.0;
+      5.0];
+
+
+Rl = [1.00000,   0.00000,   0.00000;
+      0.00000,   0.92848,   0.37139;
+      0.00000,  -0.37139,   0.92848];
+
+Tl = [0.0;
+      2.0;
+      5.0];
+
 left = mean(double(imread('Matched Points/left.jpg')),3);
 right = mean(double(imread('Matched Points/Right.jpg')),3);
 
@@ -43,10 +74,6 @@ E = K'*F*K;
 disp('Essential matrix E is equal to:')
 disp(E);
 
-Rl = zeros(3);
-tl = zeros(3,1);
-Rr = zeros(3);
-tr = zeros(3,1);
 % TODO: Compute Rotations and translatiosn between views (Question 2)
 
 R90 = [0 -1 0; 1 0 0; 0 0 1];
@@ -92,8 +119,17 @@ zComponents = zeros(M,1, size(candidateTranslations,3)*size(candidateRotation,3)
 idx = 1;
 for k=1:size(candidateRotation,3)
     for j=1:size(candidateTranslations,3)
-        %candidateRotation(:,:,k) = Rr;
-        %candidateTranslations(:,j) = Tr;
+        
+        % override estimated transformations by given sample data.
+        if shouldRunSamples
+            if useLeft
+                candidateRotation(:,:,k) = Rl;
+                candidateTranslations(:,j) = Tl;
+            else
+                candidateRotation(:,:,k) = Rr;
+                candidateTranslations(:,j) = Tr;
+            end
+        end
         
         % Apply the formula from en.wikipedia.org/wiki/Essential_matrix
         % in order to reconstruct the height z.
