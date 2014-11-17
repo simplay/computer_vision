@@ -2,19 +2,40 @@ clear all
 close all
 clc
 
-maxSize = 500;
-% We assume images have the same size
-left = mean(single(imread('pics/left.jpg')),3);
-[M, N] = size(left);
-ratio = max(M,N)/maxSize;
-left = imresize(left,1/ratio);
+useZytglogge = false;
+fileName = 'cow_savedPoints.mat';
+if useZytglogge
+    fileName = 'zyt_savedPoints.mat';
+    maxSize = 500;
+    % We assume images have the same size
+    left = mean(single(imread('pics/l1.jpg')),3);
+    [M,N] = size(left);
+    ratio = max(M,N)/maxSize;
+    left = imresize(left,1/ratio);
 
-right = mean(single(imread('pics/right.jpg')),3);
-right = imresize(right,1/ratio);
+    right = mean(single(imread('pics/r1.jpg')),3);
+    right = imresize(right,1/ratio);
+    disp('loaded zytglogge example');
+else
+    maxSize = 500;
+    % We assume images have the same size
+    left = mean(single(imread('pics/left.jpg')),3);
+    [M, N] = size(left);
+    ratio = max(M,N)/maxSize;
+    left = imresize(left,1/ratio);
+
+    right = mean(single(imread('pics/right.jpg')),3);
+    right = imresize(right,1/ratio);
+    disp('loaded cow example');
+end
+
+
+
+
 
 [rows, cols] = size(left);
 
-figure('Position',[100,100,1024,800])
+figure()
 clf;
 subplot(1,2,1);
 imagesc(left);
@@ -38,8 +59,8 @@ selectNewPoints  = false;
 leftPoints = zeros(3, numPoints);
 rightPoints = zeros(3, numPoints);
 
-if exist('savedPoints.mat','file') && ~selectNewPoints
-    load('savedPoints.mat')
+if exist(fileName,'file') && ~selectNewPoints
+    load(fileName)
 else
     for i=1:numPoints
         disp(['Selection of Position ', num2str(i), ' of ', num2str(numPoints), ':']);
@@ -58,10 +79,41 @@ else
     end
     
     if savePoints
-        save('savedPoints.mat','leftPoints','rightPoints');
+        save(fileName,'leftPoints','rightPoints');
     end
 end
 
+% plotting selected pointss
+figure('name', 'left selections')
+imagesc(left);
+colormap(gray)
+hold on
+for k=1:size(leftPoints,2)
+    p = leftPoints(:,k);
+    plot(p(1), p(2), 'r.')
+end
+
+
+figure('name', 'right selections')
+imagesc(right);
+colormap(gray)
+hold on
+for k=1:size(rightPoints,2)
+    p = rightPoints(:,k);
+    plot(p(1), p(2), 'r.')
+end
+
+figure('Position',[100,100,1024,800])
+clf;
+subplot(1,2,1);
+imagesc(left);
+colormap(gray) 
+title('Left Image');
+
+subplot(1,2,2);
+imagesc(right);
+colormap(gray)
+title('Right Image');
 
 % Computing the fundamental matrix
 F = eightPointsAlgorithm(leftPoints,rightPoints); 
@@ -131,3 +183,5 @@ hold on
 plot(rightEpipolePosition(1),rightEpipolePosition(2),'bo');
 xlabel('x');
 ylabel('y');
+disp(['epipole e in left image at: (',num2str(leftEpipolePosition(1)),',',num2str(leftEpipolePosition(2)),')']);
+disp(['epipole e'' in right image at: (',num2str(rightEpipolePosition(1)),',',num2str(rightEpipolePosition(2)),')']);
