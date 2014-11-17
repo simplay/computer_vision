@@ -441,9 +441,16 @@ Reformulating equation $\ref{eq:3d_reconstr_eq}$ we can solve for the height com
 \end{align}
 
 
-In practise we also have to take the focal length of the camera in order to perform the computations stated in equation $\ref{eq:find_x_y_3d_points}$. Thus in practise we perform the following:
+In practise we also have to take the focal length $f$ of the camera in order to perform the computations stated in equation $\ref{eq:find_x_y_3d_points}$. Thus in practise we compute the following:
 
+\begin{enumerate}
+    \item $\forall \textbf{p}^{l}, \textbf{p}^{r}: z = \frac{ (\mathbf{r}_{1} - p^{r}_{x} \, \mathbf{r}_{3}) \cdot \mathbf{t} }{ (\mathbf{r}_{1} - p^{r}_{x} \, \mathbf{r}_{3}) \cdot \textbf{p}^{l} }$
+    \item $\forall \textbf{p}^{l}: (x,y) = \frac{z \cdot \textbf{p}^{l}}{f}$
+\end{enumerate}
 
+The resulting, reconstructed 3d points $(x,y,z)$ are then plotted using Matlab's scatter3 function that allows us to illustrate a reconstructed image as a point cloud (without the need of performing a mesh triangulation). \\
+
+In the following I am going to show some reconstruction images using the method described in this report, when running my code. I also compare my result to those one would get when knowing the exact rotation and translation matrices. These matrices are given as extrinsic parameters in order to compare the results.
 
      
 
