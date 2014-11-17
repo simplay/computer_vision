@@ -267,12 +267,13 @@ In the following I demonstrate some sample results produced by my Matlab code:
 
 \subsection{Model reconstruction (50 points)}
 
-From given (large) set of matching points of both cow-images, left and right, we want to reconstruct its corresponding 3d geometry by relying on the eight-point algorithm. In this task we are only provided by the extrinsic paramter $K$ which is describing the camera calibration. \\
+From given (large) set of matching points of both cow-images, left and right, we want to reconstruct its corresponding 3d geometry by relying on the eight-point algorithm. Our goal is to estimate the depth of the given matching points. \\
+
+In this task we are only provided by the intrinsic parameter $K$ which is describing the camera calibration. \\
 
 We first estimate the fundamental matrix $F$, using all matching points from the provided data-set. Note that there are more than eight given points that we pass to our eight-point algorithm. \\
 
 This gives us the following matrix for F:
-
 \begin{align}
 F = 
 \left(\begin{array}{rrr}
@@ -296,7 +297,7 @@ The provided matching points from both images were taken by the same camra. Thus
     E = K^{T} F K
 \end{align}
 
-Solving for the essential matrix in this task gives us:
+When solving for the essential matrix in this task we get:
 
 \begin{align}
 E = 
@@ -307,8 +308,47 @@ E =
 \end{array} \right)
 \end{align}
 
+In the following let $x$ denote a point from the left image and $x'$ a point from the right image. From the class we know that the essential matrix is formed by a translation $[t]_x$ (that is expressed as a skew symmetric matrix and a rotation matrix $R$. 
+
+\begin{align}
+    E = [t]_x R 
+\end{align}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/epipol_const_cal_case}
+    \caption{Illustration of the epipolar constraints for the calibrated case: The vectors $Rx$, $t$ and $x'$ are coplanar.}
+    \label{fig:epipolar_constraints}
+\end{figure}
+
+Figure $\ref{fig:epipolar_constraints}$ again shows the epipolar constraint for the calibrated case and illustrated the relationship of the matrices $R$ and the translation vector $t$. 
+
+\begin{align}
+    x' \cdot \left( t \times R x \right) \rightarrow x' E x = 0
+\end{align}
+
+Thus, under ideal conditions, we can conclude, that the essential matrix $E$ is singular. Hence, we are going to compute the singular value decomposition (SVD) of the essential matrix:
+
+\begin{align}
+    E = U \Sigma V^{T}
+\end{align}
+
+In summary, we found that for the essential matrix (under ideal conditions) the following identities hold true:
+
+\begin{equation}
+    E = [t]_x R = U \Sigma V^{T}
+\end{equation}
+
+
+
+
 
 % TODO why do we need to compute the essential matrix E
+
+
+
+
+
 
 
 Last we want to reconstruct 3d points $(x,y,z)$ from corresponding image points. More precisely, we want to compute the 3d points given corresponding normalized image coordinates 
@@ -325,13 +365,6 @@ from the left image and image coordinates from the right image
 Assuming that the essential matrix $E$ is known and the corresponding rotation $R$ and translation $t$ transformations have been determined, we can apply the algorithm from Longuet-Higgins's Paper. \\
 
 In the following let $r_k$ denote the k-th row of the rotation transformation $R$.
-
-
-
-
-
-
-
 
 
 
