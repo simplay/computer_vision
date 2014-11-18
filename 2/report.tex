@@ -54,7 +54,11 @@ For given two images - called left and right - both showing a certain object fro
 
 Initially, a user has to select a certain point in the left image and then mark the corresponding position in the right image by clicking at the appropriate position. For each click a user performs we store the corresponding image coordinates at the position where the user performed its click action and also remember from which image this click came from. We store these image coordinates as two dimensional homogenous positions. Remember that two-dimensional homogenous coordinates that represents a point in space have three components, where the last is equal one and the first two correspond to the regular cartesian coordinates of the clicked image position. A user has to mark in both images eight positions using our GUI, alternating, first in the left, then in the right image the corresponding position. The collected homogenous coordinates resulting from the selection-process in the left image are both stored in a $3 \times 8$ matrix called \emph{left} (each column represents a homogenous point). Similarly, the collected selections in the right image are stored in a $3 \times 8$ matrix called \emph{right}. \\
 
-Using these \emph{left} and \emph{right} positions we compute (estimate) the fundamental matrix $F$ by applying the \emph{normalized eight point algorithm} on them. This algorithm is called \emph{normalized} since all selected positions from the left image and those from the right image are centred towards their mean center which is supposed to denote the approximate image origin $(0,0)$ (each image has its own origin). \\ 
+Using these \emph{left} and \emph{right} positions we compute (estimate) the fundamental matrix $F$ by applying the \emph{normalized eight point algorithm} on them. \\
+
+Note that in epipolar geometry we use the Fundamental matrix F in order to describes an epipolar line ($F x$) on which the corresponding point $x'$ on the other image must lie. \\
+
+The eight point algorithm is called \emph{normalized} since all selected positions from the left image and those from the right image are centred towards their mean center which is supposed to denote the approximate image origin $(0,0)$ (each image has its own origin). \\ 
 
 The normalization process for a given set of points works as the following: using the (x,y) from a set of points (in our case a matrix carrying homogenous coordinates), we compute the mean position by summing all positions and dividing by the number of used points (in this exercise this is equal to eight points). Then, we shift all the given point positions towards this center by subtracting each position by their mean position. \\
 
@@ -214,9 +218,20 @@ Next we have to enforce the rank-2 constraint by setting the smallest singular v
     F_{rank=2} = U \Sigma' V^{T}
 \end{align}
 
-where $\Sigma$ denotes the modified $3 \times 3$ singular value diagonal matrix $\Sigma$ with the last singular value set to zero. \\
+where $\Sigma'$ denotes the modified $3 \times 3$ singular value diagonal matrix $\Sigma$ with the last singular value set to zero, i.e.:
 
-the last remaining step is to transform the fundamental matrix $F_{rank=2}$ back to original units. This can be achieved by multiplying the point-set normalization matrices $T_l$ and $T_r$ to $F_{rank=2}$:
+\begin{align}
+    \Sigma' = 
+    \left(\begin{array}{rrr}
+\sigma_1 & 0 & 0 \\
+0 & \sigma_2 & 0 \\
+0 & 0 & 0 \\
+\end{array} \right)
+\end{align}
+
+Where $\sigma_2 \leq \sigma_1 $. \\
+
+The last remaining step is to transform the fundamental matrix $F_{rank=2}$ back to original units. This can be achieved by multiplying the point-set normalization matrices $T_l$ and $T_r$ to $F_{rank=2}$:
 
 \begin{equation}
     F = T_{r}^{T} F_{rank=2} T_{l} 
