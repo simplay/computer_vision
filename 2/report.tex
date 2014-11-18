@@ -526,8 +526,14 @@ We observe that when we are using $R_r$ and $t_r$ for the 3d point reconstructio
 
 Potential causes for this not that well looking results, when using our data:
 \begin{itemize}
-    \item Da reasons
+    \item Idea 1: The singular were differing too much from each other. The estimation approach we are using in order to reconstruct R assumes, that the singular values of the svd of the fundamental matrix are the same. Thus, when having a different $\Sigma$ sigma matrix as it was supposed to be there (having the same singular value twice (last singular values is zero - rank 2 constraint)). This also will affect the $U$ and $V$ matrices of the SVD of $F$, which we are using in order to compute $R$ and $V$. One possible solution to this problem would be some kind of rescaling or we could overwrite the 2nd singular value by the largest one. I have not tried this out - this is just an idea.
+    \item there is a bug present: Even this is possible I do not think this is the result for this kind of difference. At least I have verified that I have computed matrices that describe a rotation (all their determinant is equal to $\pm 1$).
+    \item Maybe the eight point algorithm is not sufficient enough in order to produce viable results. Even we use normalized points, we maybe should rely on a non-linear approach.
+    \item Maybe there is noise present. However, I exclude this possibility, since then, in my opinion, none of our reconstructions should be able to produce nice depths.
+    \item Maybe there is some kind of normalization issue still present, regarding the image normalization.
 \end{itemize}
+
+In general, the eight-point algorithm is very sensitive to the presence of noise. This means if there was noise to the correspondence, the results would look very different from those we obtained. Furthermore, when using de-normalized matching-points, the eight point algorithm would also perform rather bad due to numerical instabilities.
 
 % showing reconstructions using our estimated matrices
 \begin{figure}[H]
