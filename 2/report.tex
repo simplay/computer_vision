@@ -254,14 +254,82 @@ We solve this equation for $y$ using $x = [0,lengt(Image_{left})]$. \\
 The corresponding epipole line on the right image can be obtained by applying the fundamental matrix to the point selected in the left image. This gives us a vector with three components. We again use these three components as line coefficients for a line though space. \\
 
 In the following I demonstrate some sample results produced by my Matlab code:
+\begin{itemize}
+    \item The figures figure $\ref{fig:cow_userselection}$ (Cow) and figure $\ref{fig:zyt_userselection}$ (Zytglogge) visualize the feature points selected by a user. Each feature point selected on the left image should correspond to one point in the right image.
+    \item The figure $\ref{fig:cow_userselection}$ shows the estimated epipolar line in the Cow image using the user specified image shown earlier and a new user selection in the left image (indicated as a cyan dot on the left red epipolar line). The blue line corresponds to the epipolar line on the right image. Similar plots of the epipolar line using the Zytglogge data-set are shown in the figures figure $\ref{fig:zyt_epipolarline_1}$, $\ref{fig:zyt_epipolarline_2}$ and $\ref{fig:zyt_epipolarline_3}$.
+    \item Last we visualize the numerical plots of the epipoles of both our data-sets. Figure $\ref{fig:cow_epipole}$ shows the epipoles of the Cow data-set and figure $\ref{fig:zyt_epipole}$ shows the epipoles of the Zytglogge data-set.
+\end{itemize}
 
 
+% showing user selection
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/cow_left_selected_points}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/cow_right_selected_points}
+\end{subfigure}
+\caption{Showing the eight user specified points in both cow images, the left image (on the left) and the right image (on the right.}
+\label{fig:cow_userselection}
+\end{figure}
 
 
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/zytglogge_left_selected_points}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/zytglogge_right_selected_points}
+\end{subfigure}
+\caption{Showing the eight user specified points in both Zytglogge images, the left image (on the left) and the right image (on the right.}
+\label{fig:zyt_userselection}
+\end{figure}
 
+% showing epipolar lines
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/epipolar_lines_cow}
+\caption{Visualization of the estimated Epipolar Lines in both Cow images (left,red and right,blue) using a certain user selection which is indicated by a cyan colored little dot (you probably have to zoom-into the left image in order to see this dot) the left image.}
+\label{fig:cow_epipolarline}
+\end{figure}
 
- 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/epi_zyt_1}
+\caption{Visualization of the estimated Epipolar Lines in both Zytglogge images (left,red and right,blue) using a certain user selection which is indicated by a cyan colored little dot (you probably have to zoom-into the left image in order to see this dot) the left image.}
+\label{fig:zyt_epipolarline_1}
+\end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/epi_zyt_2}
+\caption{Visualization of the estimated Epipolar Lines in both Zytglogge images (left,red and right,blue) using a certain user selection which is indicated by a cyan colored little dot (you probably have to zoom-into the left image in order to see this dot) the left image.}
+\label{fig:zyt_epipolarline_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/epi_zyt_3}
+\caption{Visualization of the estimated Epipolar Lines in both Zytglogge images (left,red and right,blue) using a certain user selection which is indicated by a cyan colored little dot (you probably have to zoom-into the left image in order to see this dot) the left image.}
+\label{fig:zyt_epipolarline_3}
+\end{figure}
+
+% showing epipoles.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/epipole_cow}
+\caption{Visualization of the coordinates of the epipoles of the Cow data-set. The red circle corresponds to the epipole in the left image, whereas the blue circle corresponds to the epipole in the right image.}
+\label{fig:cow_epipole}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/epipole_zyt}
+\caption{Visualization of the coordinates of the epipoles of the Zytglogge data-set. The red circle corresponds to the epipole in the left image, whereas the blue circle corresponds to the epipole in the right image.}
+\label{fig:zyt_epipole}
+\end{figure}
 
 
 

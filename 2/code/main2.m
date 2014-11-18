@@ -2,7 +2,7 @@ clear all
 close all
 clc
 
-shouldRunSamples = true;
+shouldRunSamples = false;
 useLeft = false;
 
 if shouldRunSamples
