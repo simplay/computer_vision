@@ -518,11 +518,54 @@ In practise we also have to take the focal length $f$ of the camera in order to 
 
 The resulting, reconstructed 3d points $(x,y,z)$ are then plotted using Matlab's scatter3 function that allows us to illustrate a reconstructed image as a point cloud (without the need of performing a mesh triangulation). \\
 
-In the following I am going to show some reconstruction images using the method described in this report, when running my code. I also compare my result to those one would get when knowing the exact rotation and translation matrices. These matrices are given as extrinsic parameters in order to compare the results.
+In the following I am going to show some reconstruction images using the method described in this report, when running my code. I also compare my result to those one would get when knowing the exact rotation and translation matrices. These matrices are given as extrinsic parameters in order to compare the results. \\
 
-     
+The figures figure $\ref{fig:cow_rec_us_1}$, figure $\ref{fig:cow_rec_us_2}$, figure $\ref{fig:cow_rec_us_3}$ and figure $\ref{fig:cow_rec_us_4}$ show the reconstructed 3d points using our estimated rotation translation matrix $R$ and estimated translation vector $t$.
 
+% showing reconstructions using our estimated matrices
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/rec_esti_1}
+\caption{Visualization of the reconstructed 3d points (point-cloud) of the Cow model using our estimated translation and rotation transformation matrices. Viewing diagonally, from the size}
+\label{fig:cow_rec_us_1}
+\end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/rec_esti_2}
+\caption{Visualization of the reconstructed 3d points (point-cloud) of the Cow model using our estimated translation and rotation transformation matrices. Viewing from the side, head downwards.}
+\label{fig:cow_rec_us_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/rec_esti_3}
+\caption{Visualization of the reconstructed 3d points (point-cloud) of the Cow model using our estimated translation and rotation transformation matrices. Viewing from top the side profile of the cow.}
+\label{fig:cow_rec_us_3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/rec_esti_4}
+\caption{Visualization of the reconstructed 3d points (point-cloud) of the Cow model using our estimated translation and rotation transformation matrices. Viewing from top the side profile of the cow using a narrow angle in order to better recognize the width of the cow.}
+\label{fig:cow_rec_us_4}
+\end{figure}
+
+% showing reconstruction using Rl and tl
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/rec_left_1}
+\caption{Visualization of the reconstructed 3d points (point-cloud) of the Cow model using the provided $R_l$ and $t_l$}
+\label{fig:cow_rec_rltl}
+\end{figure}
+
+% showing reconstruction using Rr and tr
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/rec_right_1}
+\caption{Visualization of the reconstructed 3d points (point-cloud) of the Cow model using the provided $R_r$ and $t_r$}
+\label{fig:cow_rec_rrtr}
+\end{figure}
 
 
 
