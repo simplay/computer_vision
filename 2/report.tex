@@ -84,7 +84,7 @@ Given the following epipolar constraint
 \label{eq:epipolar_constraint}
 \end{align}
 
-Where $F$ denotes the (yet) unknown Fundamental matrix we are looking for. By solving the minmizing problem 
+Where $F$ denotes the (yet) unknown Fundamental matrix we are looking for. By solving the minimizing problem 
 \begin{align}
     \min_{\bf{F}} \sum^{N}_{k=1} \left(\textbf{x'}_{k}^{T} \textbf{F} \textbf{x}_{k}\right)^2 s.t. ||\textbf{F}||^2 = 1
 \label{eq:min_problem}
@@ -171,14 +171,14 @@ thus, we solving
  Y \cdot f = 0
 \end{equation}
 
-will solve the equation $\ref{eq:min_problem}$. Such a system of equations can usually be solved by using a SVD docompositon of the system. We choose f as the left singular vector that corresponds to the smallest singular value of $Y$. Thus let us apply the singular value decomposition on $Y$:
+will solve the equation $\ref{eq:min_problem}$. Such a system of equations can usually be solved by using a SVD decompositon of the system. We choose f as the left singular vector that corresponds to the smallest singular value of $Y$. Thus let us apply the singular value decomposition on $Y$:
 
 \begin{equation}
     Y = U \Sigma V^{T}
 \label{eq:svd_y}
 \end{equation}
 
-Where U,V are orthonormal (rotation) matrices (i.e. $U U^{T} = I = U^{T} U$ same for V), and $\Sigma$ is a diagonal matrix containing all singular values of $Y$ in an ascending order. This means, the highest singular values is the first diagonal element, the smalles singular value is the last diagonal element of $\Sigma$. \\
+Where U,V are orthonormal (rotation) matrices (i.e. $U U^{T} = I = U^{T} U$ same for V), and $\Sigma$ is a diagonal matrix containing all singular values of $Y$ in an ascending order. This means, the highest singular values is the first diagonal element, the smallest singular value is the last diagonal element of $\Sigma$. \\
 
 Since we are interested in the left singular vector that corresponds to the the smallest singular values in $\Sigma$ we have to take the last column of $U$. Therefore we assign f by the last column of U, i.e. 
 
@@ -523,7 +523,7 @@ We observe that when we are using $R_r$ and $t_r$ for the 3d point reconstructio
 
 Potential causes for this not that well looking results, when using our data:
 \begin{itemize}
-    \item Idea 1: The singular were differing too much from each other. The estimation approach we are using in order to reconstruct R assumes, that the singular values of the svd of the fundamental matrix are the same. Thus, when having a different $\Sigma$ sigma matrix as it was supposed to be there (having the same singular value twice (last singular values is zero - rank 2 constraint)). This also will affect the $U$ and $V$ matrices of the SVD of $F$, which we are using in order to compute $R$ and $V$. One possible solution to this problem would be some kind of rescaling or we could overwrite the 2nd singular value by the largest one. I have not tried this out - this is just an idea.
+    \item Idea 1: The singular were differing too much from each other. The estimation approach we are using in order to reconstruct R assumes, that the singular values of the SVD of the fundamental matrix are the same. Thus, when having a different $\Sigma$ sigma matrix as it was supposed to be there (having the same singular value twice (last singular values is zero - rank 2 constraint)). This also will affect the $U$ and $V$ matrices of the SVD of $F$, which we are using in order to compute $R$ and $V$. One possible solution to this problem would be some kind of rescaling or we could overwrite the 2nd singular value by the largest one. I have not tried this out - this is just an idea.
     \item there is a bug present: Even this is possible I do not think this is the result for this kind of difference. At least I have verified that I have computed matrices that describe a rotation (all their determinant is equal to $\pm 1$).
     \item Maybe the eight point algorithm is not sufficient enough in order to produce viable results. Even we use normalized points, we maybe should rely on a non-linear approach.
     \item Maybe there is noise present. However, I exclude this possibility, since then, in my opinion, none of our reconstructions should be able to produce nice depths.
