@@ -520,7 +520,14 @@ The resulting, reconstructed 3d points $(x,y,z)$ are then plotted using Matlab's
 
 In the following I am going to show some reconstruction images using the method described in this report, when running my code. I also compare my result to those one would get when knowing the exact rotation and translation matrices. These matrices are given as extrinsic parameters in order to compare the results. \\
 
-The figures figure $\ref{fig:cow_rec_us_1}$, figure $\ref{fig:cow_rec_us_2}$, figure $\ref{fig:cow_rec_us_3}$ and figure $\ref{fig:cow_rec_us_4}$ show the reconstructed 3d points using our estimated rotation translation matrix $R$ and estimated translation vector $t$.
+The figures figure $\ref{fig:cow_rec_us_1}$, figure $\ref{fig:cow_rec_us_2}$, figure $\ref{fig:cow_rec_us_3}$ and figure $\ref{fig:cow_rec_us_4}$ show the reconstructed 3d points using our estimated rotation translation matrix $R$ and estimated translation vector $t$. Figure $\ref{fig:cow_rec_rltl}$ shows the reconstructed 3d points using the given $R_l$ and $t_l$ data. Last, figure $\ref{fig:cow_rec_rrtr}$ shows the reconstructed 3d points we get when using the given $R_r$ and $t_r$ data. \\
+
+We observe that when we are using $R_r$ and $t_r$ for the 3d point reconstruction we obtain a cow that has almost no depth, i.e. this model is pretty flat. In contrary, when we are using the $R_l$ and $t_l$ data for the reconstruction process, we get an image which has appropriate depth values. This mean using $R_l$ and $t_l$ for the 3d reconstruction gives us a good looking 3d model having viable, visually convincing depth values. Applying our estimated $R$ and $t$ data gives us a reconstruction that produces depth values that are somewhere in between the both previous results. Using our data, the reconstructed model does not look that flat as when we were using $R_r$ and $t_r$. However, our reconstructed 3d points also do not exhibit depth details as when we were using $R_l$ and $t_l$. In my honest opinion, our reconstruction looks closer to the flat results when using $R_r$ and $t_r$. \\
+
+Potential causes for this not that well looking results, when using our data:
+\begin{itemize}
+    \item Da reasons
+\end{itemize}
 
 % showing reconstructions using our estimated matrices
 \begin{figure}[H]
