@@ -1,3 +1,7 @@
+% CV-Project2
+% Michael Single
+% 08-917-445
+
 clear all
 close all
 clc

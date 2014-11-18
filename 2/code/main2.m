@@ -1,8 +1,15 @@
+% CV-Project2
+% Michael Single
+% 08-917-445
+
 clear all
 close all
 clc
 
+% should we use the extrinsic given data?
 shouldRunSamples = false;
+
+% should we use Rl, tl, if false we use Rr and tr
 useLeft = false;
 
 if shouldRunSamples
@@ -75,9 +82,7 @@ disp('Essential matrix E is equal to:')
 disp(E);
 
 % TODO: Compute Rotations and translatiosn between views (Question 2)
-
 R90 = [0 -1 0; 1 0 0; 0 0 1];
-
 [U,S,V] = svd(E);
 
 %%
@@ -112,6 +117,9 @@ candidateTranslations = zeros(3,1,2);
 candidateTranslations(:,:,1) = U(:,end);
 candidateTranslations(:,:,2) = -U(:,end);
 
+% Subtask 3: reconstruct the 3d points using the obtained rotation and
+% translation choosing a consisten solution
+
 % compute height values from rotation and translation transformation
 % combinations.
 f = 4;
@@ -140,6 +148,18 @@ for k=1:size(candidateRotation,3)
         t = repmat(candidateTranslations(:,j), 1, size(rightPoints,2))';
         z = sum(r1_minus_prx_r3.*t, 2)./sum(r1_minus_prx_r3 .* leftPoints',2);
         
+        
+        
+        % test section: use other method in order to reconstruct depth z.
+        %r2 = repmat(candidateRotation(2,:,k),size(rightPoints,2),1);
+        %pr_y = repmat(rightPoints(2,:)',1,3);
+        %r3 = repmat(candidateRotation(3,:,k),size(rightPoints,2),1);
+        %r1_minus_prx_r3 = r2 - pr_y.*r3;
+        %t = repmat(candidateTranslations(:,j), 1, size(rightPoints,2))';
+        %z = sum(r1_minus_prx_r3.*t, 2)./sum(r1_minus_prx_r3 .* leftPoints',2);
+        % does not look better
+        
+        
         % save current height values.
         zComponents(:,:,idx) = z;
         idx = idx + 1;
@@ -162,7 +182,7 @@ for k=1:size(zComponents,3)
     end
 end
 
-%plot 3D points
+%Subtask 4: Showing the plots of the 3D points
 z = zComponents(:,:,bestZIdx);
 x = (z .* leftPoints(1,:)')/f;
 y = (z .* leftPoints(2,:)')/f;

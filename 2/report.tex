@@ -531,7 +531,13 @@ Potential causes for this not that well looking results, when using our data:
     \item Maybe the eight point algorithm is not sufficient enough in order to produce viable results. Even we use normalized points, we maybe should rely on a non-linear approach.
     \item Maybe there is noise present. However, I exclude this possibility, since then, in my opinion, none of our reconstructions should be able to produce nice depths.
     \item Maybe there is some kind of normalization issue still present, regarding the image normalization.
+    \item On wikipedia there is also another method described in order to reconstruct the depth $z = \frac{ (\mathbf{r}_{2} - y'_{2} \, \mathbf{r}_{3}) \cdot \mathbf{t} }{ (\mathbf{r}_{2} - y'_{2} \, \mathbf{r}_{3}) \cdot \mathbf{y} } $. However, when I tried this out I did not get better looking results.
 \end{itemize}
+
+
+
+
+
 
 In general, the eight-point algorithm is very sensitive to the presence of noise. This means if there was noise to the correspondence, the results would look very different from those we obtained. Furthermore, when using de-normalized matching-points, the eight point algorithm would also perform rather bad due to numerical instabilities.
 

@@ -1,3 +1,6 @@
+% CV-Project2
+% Michael Single
+% 08-917-445
 function F = eightPointsAlgorithm(leftPositions, rightPositions)
 % function Fundamental_Matrix =Eight_Point_Algorithm(x1,x2)
 % Calculates the Fundamental matrix between two views from the normalized 8 point algorithm
