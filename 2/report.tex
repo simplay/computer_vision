@@ -18,10 +18,6 @@
 \setlength{\parskip}{18pt}
 
 
-
-
-
-
 \usepackage[latin1]{inputenc} 
 \usepackage[T1]{fontenc} 
 
@@ -32,10 +28,7 @@
 } 
 
 
-
 \title{Report Computer Vision Project 2}
-
-
 
 \author{Single Michael\\08-917-445}
 % //////////////////////////////////////////////////
@@ -44,12 +37,16 @@
 \begin{document}
 
 
-
 \maketitle
 
 
 \section{Binocular Stereo (Due on 28/10/2014)}
 
+Some notes about the my code:
+\begin{itemize}
+ \item To run a demo showing results from task 1, run the Matlab script \emph{main1.m}. There is a flag called \emph{useZytglogge}. Set it to true in order to run the Zytglogge data set. Otherwise the Cow-data set will be loaded/used.
+ \item To run a demo showing results from task 2, run the matlab scrit \emph{main2.m}. There are two flags in this script: \emph{shouldRunSamples} specifying whether we should use the provided $R_l$, $t_l$ or $R_r$,$t_r$ extrinsic parameters. The other flag - called  \emph{useLeft} - specifies what extrinsic parameters should be used. If it us true, the script uses $R_l$, $t_l$ otherwise it will use $R_r$,$t_r$.  
+\end{itemize}
 
 
 \subsection{Epipolar lines Estimation (50 points)}
@@ -533,11 +530,6 @@ Potential causes for this not that well looking results, when using our data:
     \item Maybe there is some kind of normalization issue still present, regarding the image normalization.
     \item On wikipedia there is also another method described in order to reconstruct the depth $z = \frac{ (\mathbf{r}_{2} - y'_{2} \, \mathbf{r}_{3}) \cdot \mathbf{t} }{ (\mathbf{r}_{2} - y'_{2} \, \mathbf{r}_{3}) \cdot \mathbf{y} } $. However, when I tried this out I did not get better looking results.
 \end{itemize}
-
-
-
-
-
 
 In general, the eight-point algorithm is very sensitive to the presence of noise. This means if there was noise to the correspondence, the results would look very different from those we obtained. Furthermore, when using de-normalized matching-points, the eight point algorithm would also perform rather bad due to numerical instabilities.
 
