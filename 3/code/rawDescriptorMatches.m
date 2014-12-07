@@ -16,10 +16,10 @@ addpath('lib/');
 addpath('src/');
 
 % specify initial runtime paramters
-usetTwoFrameData = false;
+useTwoFrameData = false;
 videoFileName = 'video_test.mp4';
 fileIdx1 = 1;
-fileIdx2 = 244;
+fileIdx2 = 40;
 
 % extracts frames from a given videos and stores them as png files in the
 % folder 'frames'.
@@ -32,7 +32,7 @@ frameBaseName = videoFileName(1:tillIdx-1);
 computeSiftDataOf(frameBaseName);
 
 %%
-if (usetTwoFrameData)
+if (useTwoFrameData)
     load('twoFrameData.mat');
 else
     leftSiftMatFile = strcat(frameBaseName, '_', num2str(fileIdx1), '.mat');
@@ -50,6 +50,8 @@ end
 
 maskedIndices = selectRegion(im1, positions1);
 maskedIdxDescr1 = descriptors1(maskedIndices, :);
+
+% find the indices between significant, closely matching points.
 matches = getMatchingFeaturePoints(maskedIdxDescr1, descriptors2);
 
 %% show matches
