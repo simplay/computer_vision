@@ -20,11 +20,11 @@ addpath('src/');
 % usage.
 
 wordsPerCluster = 1500;
-frameBaseName = 'video_test';
+frameBaseName = 'breakingbad2';
 allSiftFeaturesBase = strcat('data/',frameBaseName,'_all.mat');
-regSelCount = 4;
+regSelCount = 1;
 
-load(allSiftFeaturesBase, 'allFrameNames', 'allPos', ...
+load(allSiftFeaturesBase, 'allFrameNames', 'descrCount', 'allPos', ...
     'allOrients', 'allScales', 'allDescr');
 
 [membership, means, rms] = kmeansML(wordsPerCluster, allDescr');
@@ -41,7 +41,7 @@ for t=1:regSelCount
     figure('name', strcat('selected image ', currentFrameName));
     maskedIndices = selectRegion(img, positions);
     maskedIdxDescr = descriptors(maskedIndices, :);
-    
+    figure('name', strcat('Matches of selection in ', currentFrameName));
     % indices of selected descriptor in collection of all descriptors
     [~, selDescIdxs] = ismember(maskedIdxDescr, allDescr, 'rows');
     
@@ -60,7 +60,11 @@ for t=1:regSelCount
         img = imread(strcat('frames/',currentFrameName));
         subplot(2,3,k);
         imshow(img);
-        title(strcat('Matching Imgage', currentFrameName, 'with score: ',num2str(scores(k))));
+        tillIdx = regexpi(currentFrameName, '_');
+        fraName = currentFrameName(tillIdx+1:end);
+        tillIdx = regexpi(fraName, '.png');
+        fraName = fraName(1:tillIdx-1);
+        title(strcat('Matching Imgage ', fraName, ' with score: ',num2str(scores(k))));
     end
     
 end

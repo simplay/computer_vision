@@ -18,11 +18,9 @@ addpath('src/');
 % specify initial runtime paramters
 useTwoFrameData = false;
 %videoFileName = 'video_test.mp4';
-videoFileName = 'breakingbad.mp4';
 videoFileName = 'breakingbad2.mp4';
 fileIdx1 = 1;
 fileIdx2 = 40; % for e.g. video_test
-fileIdx2 = 614; % for e.g. breaking bad
 fileIdx2 = 140; % for e.g. breaking bad 2 select the white tubus in the back
 
 %% compute data sets
