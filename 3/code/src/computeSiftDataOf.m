@@ -44,10 +44,13 @@ function computeSiftDataOf(baseFrameName)
         saveFilePathName = strcat('data/',frameBaseName, '.mat');
         save(saveFilePathName, 'currentFrameName', 'featureCount', ...
              'positions', 'orients', 'scales', 'descriptors'); 
+        clc
+        disp(['SIFT data  set for frame ', num2str(k), '/',num2str(fileCount), ' generated']); 
     end
     
     saveFilePathName = strcat('data/',baseFrameName, '_all.mat');
     save(saveFilePathName, 'allFrameNames', 'descrCount', 'allPos', ...
          'allOrients', 'allScales', 'allDescr');
+    disp([num2str(fileCount), ' SIFT data sets from frames generated.']);
 end
 

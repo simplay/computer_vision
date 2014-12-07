@@ -13,11 +13,14 @@ function extractVideoFrames(videoName)
     
     % extract frames as images from given video file.
     framePath = 'frames/';    
-    for frameIdx=1:video.NumberOfFrames,
+    frameCount = video.NumberOfFrames-1;
+    for frameIdx=1:frameCount,
         currentFrame = read(video, frameIdx);
         currentFrameName = strcat(baseFrameName, '_', num2str(frameIdx), '.png');
         imwrite(currentFrame, strcat(framePath,currentFrameName));
+        clc
+        disp(['Frame ', num2str(frameIdx), '/',num2str(frameCount), ' extracted']);
     end
-
+    disp([num2str(frameCount), ' frames extracted from given video.']);
 end
 
