@@ -61,6 +61,8 @@ You can generate your own mat files using my function \emph{computeSiftDataOf}. 
 Last, I additionally assembled all mat files into one big mat file, which contains all mat files in a sequential order. This is just to simplify the coding that had to be done for the assignment. You can find all those mat files in the folder \emph{data/}. \\
 
 \subsection{Raw Descriptor Matching}
+Note: run the script \emph{rawDescriptorMatches} in order to reproduce my results. \\
+
 First we load the precomputed SIFT data of two chosen images (called left and right) from our data sets. Then we let a user select a region (relying on the provided script \emph{selectRegion}) in the left image. Each point within the user-selection is then considered as a feature point in the left image. \\
 
 Next we try to match these left-image feature points to corresponding, closest feature points in the right image. For the matching process, we calculate the distance (2-norm) between the descriptors of the left features with all possible descriptors from the left image (Remember: those descriptors are stored in the corresponding mat files). In practise we compute the distance between all possible descriptor pair combinations where the first points is from the left descriptor and the second point is from the right descriptor (using the provided \emph{dist2} function) and store those distances in a $M \times N$ matrix D. Note that the m-th row in $D$ corresponds to the m-th element in the left descriptor and the n-th colum in $D$ corresponds to the n-th element in the right descriptor. \\
@@ -166,6 +168,7 @@ In summary, the matching produced in my implementation seems to work.
 
 
 \subsection{Visualizing The Vocabulary}
+Note: run the script \emph{visualizeVocabulary} in order to reproduce my results. \\
 
 The goal of this task was to visualize patches associated with two of the visual words, i.e. we are interested in showing the visual vocabulary. This can be achieved by clustering all feature points of all descriptors of a given data-set. For this purpose I use the assembled mat file that has been generated after the generation of the SIFT data of each extracted video frame. This file contains all SIFT data of every frame in a sequential order that belongs to the same data-set. \\
 
@@ -219,8 +222,10 @@ We observe that all feature point patches that belong to the same word look simi
 \end{figure}
 
 \subsection{Full Frame Queries}
+Note: run the script \emph{fullFrameQueries} in order to reproduce my results. \\
 
 \subsection{Region Queries}
+Note: run the script \emph{regionQueries} in order to reproduce my results. \\
 
 
 
