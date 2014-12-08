@@ -167,6 +167,57 @@ In summary, the matching produced in my implementation seems to work.
 
 \subsection{Visualizing The Vocabulary}
 
+The goal of this task was to visualize patches associated with two of the visual words, i.e. we are interested in showing the visual vocabulary. This can be achieved by clustering all feature points of all descriptors of a given data-set. For this purpose I use the assembled mat file that has been generated after the generation of the SIFT data of each extracted video frame. This file contains all SIFT data of every frame in a sequential order that belongs to the same data-set. \\
+
+After loading all the SIFT data of every frame, especially all the descriptors (containing all the feature points), I pass that huge set of descriptors to the provided method \emph{kmeansML}. Basically, this method separates all the descriptors (feature points) into k (this is a user specified constant, for this assignment k is equal to 1500) clusters. Each cluster represents a so called word. In the clustering process, each feature points was classified to a particular word. Thus, when selecting a random word, we can retrieve the corresponding feature points that belong to that cluster. From this feature point set, we select 25 of them. From those feature points, we select their corresponding patches from the image using the provided Matlab function \emph{getPatchFromSIFTParameters} and visualize all these patches. \\
+
+In the following I show for each of my data-sets two word visualizations:
+\begin{itemize}
+    \item Breaking Bad data-set: First visual word example shown in figure $\ref{fig:bb_word_1}$ and second example shown in figure $\ref{fig:bb_word_2}$. The first word clusters features that are associated to a patch showing some kind of cabinet with a tubus and the second word aggregates patches that also look very similar (tubus shaped geometry on the right top corner or a bar-like shape on the top right center).
+    \item kids data-set: First visual word example shown in figure $\ref{fig:kids_word_1}$ and second example shown in figure $\ref{fig:kids_word_2}$. The first word aggregates patches that belong to features that look like a arm and the is the word that aggregates features that have a patch showing the head of the man playing with the kids (rotated by 180 degree).
+\end{itemize}
+
+We observe that all feature point patches that belong to the same word look similar to each other. The exhibit the same kind of visual appearance in their detail. This holds true for both data sets.
+
+
+% breaking bad data set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/vocabulary/bb/bbVoca122}
+\end{subfigure}
+\caption{Breaking Bad data-set: Patches of feature points that belong to the same cluster.}
+\label{fig:bb_word_1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/vocabulary/bb/bbVoca1174}
+\end{subfigure}
+\caption{Breaking Bad data-set: Patches of feature points that belong to the same cluster.}
+\label{fig:bb_word_2}
+\end{figure}
+
+% kids data set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/vocabulary/kids/voca888}
+\end{subfigure}
+\caption{Kids data-set: Patches of feature points that belong to the same cluster.}
+\label{fig:kids_word_1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/vocabulary/kids/voca1302}
+\end{subfigure}
+\caption{Kids data-set: Patches of feature points that belong to the same cluster.}
+\label{fig:kids_word_2}
+\end{figure}
+
 \subsection{Full Frame Queries}
 
 \subsection{Region Queries}
