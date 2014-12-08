@@ -58,11 +58,117 @@ Hence, for each extracted frame I create a \emph{.mat} file that contains
 
 You can generate your own mat files using my function \emph{computeSiftDataOf}. \\
 
-Last, I additionally assembled all mat files into one big mat file, which contains all mat files in a sequential order. This is just to simplify the coding that had to be done for the assignment. You can find all those mat files in the folder \emph{data/}.
+Last, I additionally assembled all mat files into one big mat file, which contains all mat files in a sequential order. This is just to simplify the coding that had to be done for the assignment. You can find all those mat files in the folder \emph{data/}. \\
 
 \subsection{Raw Descriptor Matching}
+First we load the precomputed SIFT data of two chosen images (called left and right) from our data sets. Then we let a user select a region (relying on the provided script \emph{selectRegion}) in the left image. Each point within the user-selection is then considered as a feature point in the left image. \\
+
+Next we try to match these left-image feature points to corresponding, closest feature points in the right image. For the matching process, we calculate the distance (2-norm) between the descriptors of the left features with all possible descriptors from the left image (Remember: those descriptors are stored in the corresponding mat files). In practise we compute the distance between all possible descriptor pair combinations where the first points is from the left descriptor and the second point is from the right descriptor (using the provided \emph{dist2} function) and store those distances in a $M \times N$ matrix D. Note that the m-th row in $D$ corresponds to the m-th element in the left descriptor and the n-th colum in $D$ corresponds to the n-th element in the right descriptor. \\
+
+For each row, we look for the minimum element, i.e. the minimum distance. This corresponds to finding the column which has the smallest distance value for a fixed row. Since a column index corresponds to the same index in the right descriptor, this retrieved column index corresponds to the best matching feature point index in the right descriptor matching to a given descriptor point in the left image (i.e. for a given row index). \\
+
+Since we only are interested in good matching feature point pairs, we introduce an additional constraint. Each determined minimum is taken if and only if it is still the minimum distance in its row, when being scaled by a certain factor that depicts a acceptance parameter. This factor has to be bigger than one. This ensures, that we only take strong and reliable matchings. This also implies that not every descriptor point in the right image has a corresponding point in the left image. \\
+
+In practise we first look for the minimum distance index in each row. We store these minima and their indices as candidates in an array and then set their values in $D$ equal to infinite. We than again look for the minimum value in this updated $D$ matrix. This will give us the second smallest distance value column-index for each row. We then compare the initial candidate minima scaled by a user specified acceptance value with the second smallest retrieved minima values. If the scaled candidates are still smaller than the second smallest minima (unscaled), then we have found a true minimum otherwise we discard this candidate. \\
+
+In my code I set this scale equal to two, i.e. if twice the minimum is still smaller than the second smallest row distance, then we have found a true minimum (index), i.e. we have found a matching. So every index pair (row column) of such a true minimum is a matching pair, where the first element corresponds to the left and the second element to the right feature point. \\
+
+For each feature points we look up its SIFT data, i.e. their position, scale and orientation. We pass those values to the provided function \emph{displaySIFTPatches} and hereby show the corresponding matches in the left and right images (resulting by the given user-selection). \\
+
+In the following I show my results I got using my implementation. My first example shows the results of the \emph{twoFrameData} data-set that acts as a test case for my implementation. Similarly as shown in the exercise sheet I selected the upper door of the fridge and got similar results shown in FIGURE. Figure $\ref{fig:friends_raw_sel}$ shows the feature points in the left image and figure $\ref{fig:friends_raw_matching}$ shows the corresponding matching points in the right image. \\
+
+I applied this feature matching the same way to my own data-sets. 
+
+\begin{itemize}
+    \item Breaking Bad data set: White tubus selection shown in figure $\ref{fig:friends_raw_sel}$ and the matching shown in figure $\ref{fig:bb_raw_matching}$.
+    \item Kids data set: Selection of boy's t-shirt shown in figure $\ref{fig:kids_raw_sel}$ and their matchings shown in figure $\ref{fig:kids_raw_matching}$.
+    \item Kids data set: Selection of collection of toys shown in figure $\ref{fig:kids2_raw_sel}$ and the corresponding matchings shown in figure $\ref{fig:kids_raw_matching}$.
+\end{itemize}
+
+In summary, the matching produced in my implementation seems to work.
+
+% friends data-set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/friends/friendsSelection}
+\end{subfigure}
+\caption{User selection in left image of provided twoFramesData data set.}
+\label{fig:friends_raw_sel}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/friends/friendsMatches}
+\end{subfigure}
+\caption{On the left feature points in the user specified selection region and on the right the their matched feature points.}
+\label{fig:friends_raw_matching}
+\end{figure}
+
+% breaking bad data-set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/friends/friendsSelection}
+\end{subfigure}
+\caption{User selection in left image of provided twoFramesData data set.}
+\label{fig:friends_raw_sel}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/bb/breakingBadRawSelection_1}
+\end{subfigure}
+\caption{On the left feature points in the user specified selection region and on the right the their matched feature points.}
+\label{fig:bb_raw_matching}
+\end{figure}
+
+% kids data-set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/kids/selMatch1}
+\end{subfigure}
+\caption{User selection in left image of provided twoFramesData data set.}
+\label{fig:kids_raw_sel}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/kids/match1}
+\end{subfigure}
+\caption{On the left feature points in the user specified selection region and on the right the their matched feature points.}
+\label{fig:kids_raw_matching}
+\end{figure}
+
+% kids2 data-set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/kids/selMatch2}
+\end{subfigure}
+\caption{User selection in left image of provided twoFramesData data set.}
+\label{fig:kids2_raw_sel}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/raw_matches/kids/match2}
+\end{subfigure}
+\caption{On the left feature points in the user specified selection region and on the right the their matched feature points.}
+\label{fig:kids_raw_matching}
+\end{figure}
+
+
+
 \subsection{Visualizing The Vocabulary}
+
 \subsection{Full Frame Queries}
+
 \subsection{Region Queries}
 
 
