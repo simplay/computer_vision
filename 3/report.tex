@@ -41,8 +41,24 @@
 
 
 \section{Video search with bags of visual words}
-% mention two videos, extracted frames from videos, stored SIFT data
-% mention here how data has been acquired
+For generating the data sets for this project I used two $\emph{mp4}$ movies. The first is a sequence of a $\emph{Breaking Bad}$ episode (called $\emph{breakingbad2}$) and the second is a demo video found used for various purposes showing some kids playing with their toys 
+(called $\emph{test\_video}$). These video files are stored in the folder \emph{video/}. \\
+
+I extracted from each movie their frames and stored them as png images in \emph{frames/} using my Matlab function \emph{extractVideoFrames}. For each frame converted to a grayscale image, I computed its corresponding SIFT data using VLFeat's function \emph{vl\_sift}.
+Hence, for each extracted frame I create a \emph{.mat} file that contains 
+
+\begin{itemize}
+    \item the SIFT vectors (encoded in the rows)
+    \item the name of the frame.
+    \item the number of detected features
+    \item the orientation of the patches
+    \item the positions of the patch center.
+    \item the scales of the patches.
+\end{itemize}
+
+You can generate your own mat files using my function \emph{computeSiftDataOf}. \\
+
+Last, I additionally assembled all mat files into one big mat file, which contains all mat files in a sequential order. This is just to simplify the coding that had to be done for the assignment. You can find all those mat files in the folder \emph{data/}.
 
 \subsection{Raw Descriptor Matching}
 \subsection{Visualizing The Vocabulary}
