@@ -15,25 +15,36 @@ addpath('util/');
 addpath('lib/');
 addpath('src/');
 
-% specify initial runtime paramters
+%% specify initial runtime paramters
+
+% specify data sets
 useTwoFrameData = false;
-%videoFileName = 'video_test.mp4';
-videoFileName = 'breakingbad2.mp4';
+useBreakingBad = false;
+shouldComputeDataSets = false;
+
+% init file loading setting.
 fileIdx1 = 1;
 fileIdx2 = 40; % for e.g. video_test
-fileIdx2 = 140; % for e.g. breaking bad 2 select the white tubus in the back
-
-%% compute data sets
-
-% extracts frames from a given videos and stores them as png files in the
-% folder 'frames'.
-extractVideoFrames(videoFileName)
-
-% compute sift data for each frame associated to the given video file.
-% stores it as a mat file called 'frameBaseName'.
+videoFileName = 'video_test.mp4';
+if useBreakingBad
+    videoFileName = 'breakingbad2.mp4';
+    fileIdx1 = 1;
+    fileIdx2 = 140; % select the white tubus in the back
+end
 tillIdx = regexpi(videoFileName, '\.');
 frameBaseName = videoFileName(1:tillIdx-1);
-computeSiftDataOf(frameBaseName);
+
+%% compute data sets
+if shouldComputeDataSets
+    % extracts frames from a given videos and stores them as png files in the
+    % folder 'frames'.
+    extractVideoFrames(videoFileName)
+
+    % compute sift data for each frame associated to the given video file.
+    % stores it as a mat file called 'frameBaseName'.
+    computeSiftDataOf(frameBaseName);
+end
+
 
 %%
 if (useTwoFrameData)
