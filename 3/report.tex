@@ -224,6 +224,79 @@ We observe that all feature point patches that belong to the same word look simi
 \subsection{Full Frame Queries}
 Note: run the script \emph{fullFrameQueries} in order to reproduce my results. \\
 
+In order to solve this task we again first compute bag of words by clustering all feature points in the set of all descriptors of a data-set of choice. Similarly, as in the previous task we initially load all assembled SIFT data of the frames belonging to target data-set. We then perform the clustering of the descriptor features as we did before. \\
+
+Next, we compute a histogram of all frames, indicating how many words belong to a particular cluster. I.e. we count how many features are classified to a certain cluster. For this purpose, we technically rely on the descriptors of frame and apply Matlab's \emph{histc} function. \\
+
+Next we choose a random frame and compare its histogram to the histograms of all other frames. For comparing the selected histogram by any other histogram (i.e. applying a measure), we compute the normalized scalar product between them. This gives us a number between zero and one. The closer the result, the more identical the two histograms are. This implies that two histograms are the same, if their normalized scalar product is equal to one and they are completely different in case their product is equal zero. We denote their similarity value by the variable \emph{score}. \\
+
+Last, we want to display the 5 most similar frames. By sorting all the similarity scores in a descending order, we simply have to pick those frames that belong to the first five scores in the sorted score set. \\
+
+In my results, the first image is the random selected frame, and all other frames represent depict the frames with the highest scores matching this random frame.
+
+In the following I demonstrate the results when applying the \emph{fullRegionQuery} script to my two data-sets:  
+
+\begin{itemize}
+    \item breaking bad data-set: Example one is shown in figure $\ref{fig:bb_fullquery_1}$ and example two is shown in figure $\ref{fig:bb_fullquery_2}$.
+    \item kids data-set: Example one is shown in figure $\ref{fig:kids_fullquery_1}$ and example two is shown in figure $\ref{fig:kids_fullquery_2}$.
+\end{itemize}
+
+Observation: Frames that are close in time to the selected frame achieve a high score value. In other words, frames that are close in a temporal sequence to the reference frame (i.e. their temporal distance is small) achieve usually a higher score value than frames in later times. This makes sense, since one movie second consists of many frames (approx. 24 frames per second). Within one second, usually, for ordinary sceneries there is not a huge spatial variation between a frame and its successor frame. Therefore, a successor frame is usually very similar to its predecessor frame and thus achieves a large similarity value. However, there are some exceptions, if there suddenly occurs some kind of occlusion for example. then a successor frame will not be close to its parent frame.
+
+% breaking bad data set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/full_frame_queries/bb/fullQueries8}
+\end{subfigure}
+\caption{Full Frame Query matchings when selecting frame 8 when using the breaking bad data-set.}
+\label{fig:bb_fullquery_1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/full_frame_queries/bb/fullQueries132}
+\end{subfigure}
+\caption{Full Frame Query matchings when selecting frame 132 when using the breaking bad data-set.}
+\label{fig:bb_fullquery_2}
+\end{figure}
+
+% kids data set
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/full_frame_queries/kids/fullQueries157}
+\end{subfigure}
+\caption{Full Frame Query matchings when selecting frame 157 when using the kids data-set.}
+\label{fig:kids_fullquery_1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/full_frame_queries/kids/fullQueries206}
+\end{subfigure}
+\caption{Full Frame Query matchings when selecting frame 206 when using the kids data-set.}
+\label{fig:kids_fullquery_2}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Region Queries}
 Note: run the script \emph{regionQueries} in order to reproduce my results. \\
 

@@ -43,9 +43,11 @@ randFrames = randperm(frameCount, 3);
 for frameIdx = randFrames
     histOfRanFrame = histData(frameIdx, :);
     
+    % similarity is dot(hist_sel, hist_other) / (norm(hist_sel)*norm(hist_other))
     normalFrameF = (repmat(norm(histOfRanFrame),frameCount,1).*normalizationFScale);
     scores = dot(repmat(histOfRanFrame, frameCount,1), histData, 2);
     
+    % order scores descending, i.e. lower indices refer to better scores.
     [scores, idxs] = sort(scores ./ normalFrameF, 'descend');
     figure('name', 'Full Frame Queries')
     
