@@ -38,17 +38,10 @@ disp('Clustering data has been computed.');
 %%
 frameCount = length(descrCount);
 histData = computeFrameHisto(descrCount, membership, frameCount, wordsPerCluster);
-normalizationFScale = sqrt(sum(histData.^2, 2));
 randFrames = randperm(frameCount, 3);
 for frameIdx = randFrames
-    histOfRanFrame = histData(frameIdx, :);
-    
-    % similarity is dot(hist_sel, hist_other) / (norm(hist_sel)*norm(hist_other))
-    normalFrameF = (repmat(norm(histOfRanFrame),frameCount,1).*normalizationFScale);
-    scores = dot(repmat(histOfRanFrame, frameCount,1), histData, 2);
-    
-    % order scores descending, i.e. lower indices refer to better scores.
-    [scores, idxs] = sort(scores ./ normalFrameF, 'descend');
+
+    [scores, idxs] = getSortedScores( histData(frameIdx, :), histData, frameCount);
     figure('name', 'Full Frame Queries')
     
     currSiftMatFile = strcat(frameBaseName, '_', num2str(idxs(1)), '.mat');

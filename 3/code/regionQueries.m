@@ -39,12 +39,16 @@ load(allSiftFeaturesBase, 'allFrameNames', 'descrCount', 'allPos', ...
 %% perform region queries
 frameCount = length(descrCount);
 for t=1:regSelCount
+    % choose a random frame idx and load the corresponding data
     randFrameIdx = randi(frameCount);
+
     randSiftMatFile = strcat(frameBaseName, '_', num2str(randFrameIdx), '.mat');
     [currentFrameName, featureCount, positions, ...
         orients, scales, descriptors] = loadOwnSiftDataOf(randSiftMatFile);
     img = imread(strcat('frames/', currentFrameName));
     
+    % show the frame image of the random chosen frame for used for the
+    % for the user region selection.
     figure('name', strcat('selected image ', currentFrameName));
     maskedIndices = selectRegion(img, positions);
     maskedIdxDescr = descriptors(maskedIndices, :);
@@ -52,14 +56,14 @@ for t=1:regSelCount
     % indices of selected descriptor in collection of all descriptors
     [~, selDescIdxs] = ismember(maskedIdxDescr, allDescr, 'rows');
     
+    % compute the histogram of the selected descriptor and all other
     histSelFeatures = histc(membership(selDescIdxs), 1:wordsPerCluster)';
     histData = computeFrameHisto(descrCount, membership, frameCount, wordsPerCluster);
     
-    normalizationFScale = sqrt(sum(histData.^2, 2));
-    normalFrameF = (repmat(norm(histSelFeatures),frameCount,1).*normalizationFScale);
-    scores = dot(repmat(histSelFeatures, frameCount,1), histData, 2);
-    [scores, idxs] = sort(scores ./ normalFrameF, 'descend');
+    % get the best matchings and the corresponding indices.
+    [scores, idxs] = getSortedScores(histSelFeatures, histData, frameCount);
     
+    % display the best 6 matchings according to user selection.
     for k=1:6
         currSiftMatFile = strcat(frameBaseName, '_', num2str(idxs(k)), '.mat');
         [currentFrameName, featureCount, positions, ...
@@ -73,5 +77,4 @@ for t=1:regSelCount
         fraName = fraName(1:tillIdx-1);
         title(strcat('Matching Imgage ', fraName, ' with score: ',num2str(scores(k))));
     end
-    
 end
