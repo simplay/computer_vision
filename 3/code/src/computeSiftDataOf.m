@@ -1,5 +1,7 @@
 function computeSiftDataOf(baseFrameName)
-%COMPUTESIFTDATAOF Summary of this function goes here
+%COMPUTESIFTDATAOF generates the sift mat files containg all relevant sift
+%data infromation for every frame of the passed base name. assembles also
+%all the sift mat files int a one big _all.mat file.
 %   @param String base name of frames extracted from provided video.
 %          corresponds to the video name used.
 

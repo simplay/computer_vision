@@ -1,6 +1,6 @@
 function [ currentFrameName, featureCount, positions, orients, scales, descriptors ] = loadOwnSiftDataOf( siftMatFileName )
-%LOADOWNSIFTDATAOF Summary of this function goes here
-%   Detailed explanation goes here
+%LOADOWNSIFTDATAOF load sift data of given sift file
+%   helper to parse the file name easily.
     siftFilePathName = strcat('data/', siftMatFileName);
     
     load(siftFilePathName, 'currentFrameName', 'featureCount', ...

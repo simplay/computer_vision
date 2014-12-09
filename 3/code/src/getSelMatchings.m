@@ -1,5 +1,5 @@
 function [ onPos, onOrients, onScales ] = getSelMatchings(matchIdxs, positions, orients, scales, maskedIndices)
-%GETSELMATCHINGS Summary of this function goes here
+%GETSELMATCHINGS find (matching) features from descriptors.
 %   Detailed explanation goes here
     
     % temporary assignment

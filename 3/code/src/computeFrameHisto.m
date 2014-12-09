@@ -1,6 +1,8 @@
 function [ histData ] = computeFrameHisto(descrCount, membership, frameCount, wordsPerCluster)
-%COMPUTEFRAMEHISTO Summary of this function goes here
-%   Detailed explanation goes here
+%COMPUTEFRAMEHISTO compute the histogram of how many feature poinst match a
+%given cluster (identifier). i.e. it counts the matching features per
+%cluster (i.e. word).
+%   Detailed explanation goes her
     histData = zeros(frameCount, wordsPerCluster);
     memIdx = 0;
     for k=1:frameCount
