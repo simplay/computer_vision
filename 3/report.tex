@@ -8,6 +8,7 @@
 \usepackage{color}
 \usepackage{subcaption}
 \usepackage{caption}
+\usepackage{morefloats}
 
 
 % load package with ``framed'' and ``numbered'' option.
@@ -281,26 +282,141 @@ Observation: Frames that are close in time to the selected frame achieve a high 
 \label{fig:kids_fullquery_2}
 \end{figure}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsection{Region Queries}
 Note: run the script \emph{regionQueries} in order to reproduce my results. \\
 
+First, we compute the bag of words, i.e. vocabulary resulting from the descriptor clustering. We use the same parameters as we did for solving task 3. Then, the user can specify a region of interest in a randomly chosen frame. This corresponds to somehow to task 1. All points within this user selected area are supposed to denote feature points of interest. We select all feature in the frame's descriptor within the selected region and compute their histogram, similarly as we did for task 3. Then we process like we did for solving task 3. We compute the histogram of all descriptors of every other frame. Then, we compute the similarity by applying the normalized scalar product between the histogram of the descriptor features associated to the user selected region (of that frame's descriptor) and every other descriptor histogram, sort all the resulting scores descending and take the best 6 matching frames (best matching in the sense of achieving a high score value). \\
+
+In the following I some good results (i.e. good matches) I get when applying the \emph{regionQueries} script to my data sets:
+
+\begin{itemize}
+    \item Breaking Bad data-set example 1: Figure $\ref{fig:bb_regionquery_sel1}$ shows the user selection and figure $\ref{fig:bb_regionquery_matches1}$ shows the corresponding best matching frames (achieving the highest scores).
+    \item Breaking Bad data-set example 2: Figure $\ref{fig:bb_regionquery_sel2}$ shows the user selection and figure $\ref{fig:bb_regionquery_matches2}$ shows the corresponding best matching frames (achieving the highest scores).
+    \item Breaking Bad data-set example 3: Figure shows $\ref{fig:bb_regionquery_sel3}$ the user selection and figure $\ref{fig:bb_regionquery_matches3}$ shows the corresponding best matching frames (achieving the highest scores).
+    \item Kids data-set example 1: Figure $\ref{fig:kids_regionquery_sel1}$ shows the user selection and figure $\ref{fig:kids_regionquery_matches1}$ shows the corresponding best matching frames (achieving the highest scores).
+    \item Kids data-set example 2: Figure $\ref{fig:kids_regionquery_sel2}$ shows the user selection and figure $\ref{fig:kids_regionquery_matches2}$ shows the corresponding best matching frames (achieving the highest scores).     
+\end{itemize}
+
+For all of these selection examples we get good matching frames. \\
+
+However, for the selection in figure $\ref{fig:kids_regionquery_sel3}$ I observe a failure case in its matching results shown in figure $\ref{fig:kids_regionquery_matches_fail}$. In this example I selected a small green toy block. The last match (bottom-right image) does not include any small block toy. Either there were no or only too few matching feature points within the user selected region. Another possible explanation for this fail case is that there was some kind of missmatch. Maybe  the hand of the kid in the green shirt matched the selection (looks kind of similar shaped, or also the girl's pink hairbow could caused a missmatch.
+
+% breaking bad data set 1
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/bb/selectionRegQ_52}
+\end{subfigure}
+\caption{Selected region (in blue) in a frame of the breaking bad data-set: a white tubus in frame 52.}
+\label{fig:bb_regionquery_sel1}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/bb/matchesRegQ_52}
+\end{subfigure}
+\caption{Corresponding best matching frames when a user selects the white tubus in frame 52 of the breaking bad data-set.}
+\label{fig:bb_regionquery_matches1}
+\end{figure}
+
+% breaking bad data set 2
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/bb/selectionRegQ_125}
+\end{subfigure}
+\caption{Selected region (in blue) in a frame of the breaking bad data-set: Jesse (the man) in frame 125.}
+\label{fig:bb_regionquery_sel2}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/bb/matchesRegQ_125}
+\end{subfigure}
+\caption{Corresponding best matching frames when a user selects Jesse (the man) in frame 125 of the breaking bad data-set.}
+\label{fig:bb_regionquery_matches2}
+\end{figure}
+
+% breaking bad data set 3
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/bb/selectionRegQ_180}
+\end{subfigure}
+\caption{Selected region (in blue) in a frame of the breaking bad data-set: the yellowish light in frame 180.}
+\label{fig:bb_regionquery_sel3}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/bb/matchesRegQ_180}
+\end{subfigure}
+\caption{Corresponding best matching frames when a user selects the yellowish light in frame 180 of the breaking bad data-set.}
+\label{fig:bb_regionquery_matches3}
+\end{figure}
 
 
+
+% kids data set 1
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/kids/selectionRegQ_94}
+\end{subfigure}
+\caption{Selected region (in blue) in a frame of the kids data-set: the girl's hairbow in frame 94.}
+\label{fig:kids_regionquery_sel1}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/kids/matchesRegQ_94}
+\end{subfigure}
+\caption{Corresponding best matching frames when a user selects the girl's hairbow in frame 94 of the kids data-set.}
+\label{fig:kids_regionquery_matches1}
+\end{figure}
+
+
+% kids data set 2
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/kids/selectionRegQ_230}
+\end{subfigure}
+\caption{Selected region (in blue) in a frame of the kids data-set: the kids' toys in frame 230.}
+\label{fig:kids_regionquery_sel2}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/kids/matchesRegQ_230}
+\end{subfigure}
+\caption{Corresponding best matching frames when a user selects the kids' toys in frame 230 of the kids data-set.}
+\label{fig:kids_regionquery_matches2}
+\end{figure}
+
+
+% kids data set Fail example
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/kids/selectionRegQ_204_fail}
+\end{subfigure}
+\caption{Selected region (in blue) in a frame of the kids data-set: the green small block toy in frame 204.}
+\label{fig:kids_regionquery_sel3}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=\textwidth]{figures/region_queries/kids/matchesRegQ_204_fail}
+\end{subfigure}
+\caption{Corresponding best matching frames when a user selects he green small block toy in frame 204 of the kids data-set containing a missmatch. The last image includes no such shaped toy block.}
+\label{fig:kids_regionquery_matches_fail}
+\end{figure}
 
 \end{document}
